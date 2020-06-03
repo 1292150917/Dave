@@ -1,0 +1,29 @@
+{
+    "apps":[
+        {
+            "name": "hospital_node",
+            "script": "./build/app.js",
+            "cwd": "./",
+            "out_file": "./logs/out.log.log",
+            "error_file": "./logs/err.log.log",
+            "watch": true,
+            "log_date_format": "YYYY-MM-DD HH:mm:ss",
+            "ignore_watch": [
+                "logs",
+                "prescribe"
+            ]
+        },{
+            "name": "yjhl_node",
+            "script": "/server/bjyyq/node/index.js",
+            "cwd": "./",
+            "out_file": "/server/bjyyq/node/out.log.log",
+            "error_file": "/server/bjyyq/node/err.log.log",
+            "watch": true,
+            "log_date_format": "YYYY-MM-DD HH:mm:ss",
+            "ignore_watch": [
+                "logs"
+            ]
+        }
+    ]
+    
+}
