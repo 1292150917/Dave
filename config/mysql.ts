@@ -4,28 +4,36 @@
  * @Author: 
  * @Date: 2019-09-27 09:01:42
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2020-06-07 16:37:11
+ * @LastEditTime: 2020-06-09 22:19:43
  */
 const mysql = require('mysql')
+var config = require('./index')
 //链接数据库
-const pool = mysql.createPool({
-    host: "127.0.0.1",
-    port: 3306,
-    user: "root",
-    connectionLimit: 10,
-    password: "123456",
-    database: "test",
-    timezone: "08:00"
-})
 interface Querys {
     sql?: any,
     values?: any,
     res?: any
 }
 var querys: any = function ({ sql, values, res }: Querys) {
+    const pool = mysql.createPool({
+        host: config.host,
+        port: config.port,
+        user: config.user,
+        connectionLimit: config.connectionLimit,
+        password: config.password,
+        database: config.database,
+        timezone: config.timezone
+    })
     // 返回一个 Promise
     return new Promise((resolve, reject) => {
         pool.getConnection(function (err: any, connection: any) {
+            if (!connection) {
+                res.send({
+                    status: 201,
+                    msg: '数据库链接错误，请先进行数据库链接并且检查数据是否可正常使用。',
+                })
+                return
+            }
             connection.query(sql, values, function (err: any, results: any, fields: any) {
                 if (err) {
                     reject(err)
