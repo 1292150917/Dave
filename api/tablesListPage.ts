@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-21 13:42:27
- * @LastEditTime: 2020-06-09 19:13:14
+ * @LastEditTime: 2020-06-10 21:52:54
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\tablesListPage.ts
@@ -24,10 +24,10 @@ class tablesListPage extends unity {
     }
     async go() {
         var { res, req } = this
-        var tables = await query({ sql: "select * from banner", res })
+        var tables = await query({ sql: `select * from ${req.query.name}`, res })
         res.send({
             status: 200,
-            tables
+            data:tables
         })
     }
 }
