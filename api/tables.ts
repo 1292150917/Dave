@@ -24,11 +24,11 @@ class tablesListPage extends unity {
     }
     async go() {
         var { res, req } = this
-        var tables = await query({ sql: "show tables" })
+        var tables = await query({ sql: "show tables", res })
         var key = {}
         var name = "test"
         for (var v in tables) {
-            key[tables[v][`Tables_in_${name}`]] = await query({ sql: `show full columns from ${tables[v][`Tables_in_${name}`]}` })
+            key[tables[v][`Tables_in_${name}`]] = await query({ sql: `show full columns from ${tables[v][`Tables_in_${name}`]}`, res })
         }
         res.send({
             status: 200,
