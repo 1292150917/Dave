@@ -1,10 +1,11 @@
 {
     "connectionLimit": 10,
     "timezone": "08:00",
-    "port": "3306",
+    "port": "",
     "type": "mysql",
-    "host": "127.0.0.1",
+    "host": "",
     "user": "root",
-    "password": "123456",
-    "database": "test"
+    "password": "",
+    "database": "",
+    "create": "true"
 }

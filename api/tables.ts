@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-21 13:42:27
- * @LastEditTime: 2020-06-09 19:21:51
+ * @LastEditTime: 2020-06-11 21:53:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\tablesListPage.ts
@@ -17,6 +17,7 @@
 "use strict"
 var unity = require('../config/part_unity')
 var query = require('../config/mysql');
+var config = require('../config/index')
 class tablesListPage extends unity {
     constructor(req?: any, res?: any) {
         super(req, res);
@@ -26,9 +27,9 @@ class tablesListPage extends unity {
         var { res, req } = this
         var tables = await query({ sql: "show tables", res })
         var key = {}
-        var name = "test"
+        var { database } = config
         for (var v in tables) {
-            key[tables[v][`Tables_in_${name}`]] = await query({ sql: `show full columns from ${tables[v][`Tables_in_${name}`]}`, res })
+            key[tables[v][`Tables_in_${database}`]] = await query({ sql: `show full columns from ${tables[v][`Tables_in_${database}`]}`, res })
         }
         res.send({
             status: 200,

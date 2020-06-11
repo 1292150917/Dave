@@ -4,9 +4,10 @@
  * @Author: 
  * @Date: 2019-09-27 09:01:42
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2020-06-09 19:08:10
+ * @LastEditTime: 2020-06-11 21:56:09
  */
 "use strict"
+var config = require('./index.json')
 class unity_Class {
     req = ''
     res = ''
@@ -16,6 +17,9 @@ class unity_Class {
         this.req = req
         this.res = res
         this.access_token_pl = (<any>global).access_token_pl
+        Object.keys(config).forEach(s =>{
+            this[s] = config[s]
+        })
     }
     // 获取当前时间
     getNowFormatDate() {

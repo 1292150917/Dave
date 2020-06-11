@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-21 13:42:27
- * @LastEditTime: 2020-06-09 22:18:50
+ * @LastEditTime: 2020-06-11 21:56:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\tablesSurface.ts
@@ -16,12 +16,12 @@ class tablesSurface extends unity {
     async go() {
         var { res, req } = this
         var query = require('../config/mysql');
-        var tables = await query({ sql: "show full tables",res })
+        var tables = await query({ sql: "show full tables", res })
         var list = []
-        var name = "test"
+        var { database } = this
         tables.forEach((s, i) => {
             list.push({
-                name: s[`Tables_in_${name}`],
+                name: s[`Tables_in_${database}`],
                 index: i
             })
         })

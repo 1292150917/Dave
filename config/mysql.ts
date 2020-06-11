@@ -4,7 +4,7 @@
  * @Author: 
  * @Date: 2019-09-27 09:01:42
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2020-06-09 22:19:43
+ * @LastEditTime: 2020-06-11 21:31:09
  */
 const mysql = require('mysql')
 var config = require('./index')
@@ -14,23 +14,23 @@ interface Querys {
     values?: any,
     res?: any
 }
+const pool = mysql.createPool({
+    host: config.host,
+    port: config.port,
+    user: config.user,
+    connectionLimit: config.connectionLimit,
+    password: config.password,
+    database: config.database,
+    timezone: config.timezone
+})
 var querys: any = function ({ sql, values, res }: Querys) {
-    const pool = mysql.createPool({
-        host: config.host,
-        port: config.port,
-        user: config.user,
-        connectionLimit: config.connectionLimit,
-        password: config.password,
-        database: config.database,
-        timezone: config.timezone
-    })
     // 返回一个 Promise
     return new Promise((resolve, reject) => {
         pool.getConnection(function (err: any, connection: any) {
-            if (!connection) {
+            if (err) {
                 res.send({
                     status: 201,
-                    msg: '数据库链接错误，请先进行数据库链接并且检查数据是否可正常使用。',
+                    msg: err.sqlMessage
                 })
                 return
             }
