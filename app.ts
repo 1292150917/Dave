@@ -18,8 +18,8 @@ var logger = log4js.getLogger();
 logger.level = 'info'; // default level is OFF - which means no logs at all.
 logger.info('Log from default logger');
 app.use(express.static(path.join(__dirname, "public")));
-// app.use(bodyParser.urlenstatusd({ extended: true, limit: '50mb' }));
-// app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+app.use(bodyParser.json({ limit: '50mb' }));
 
 app.use('*', function (req, res, next) {
 	var json = fs.readFileSync('./config/index.json', "utf-8")
@@ -87,6 +87,10 @@ app.get('/database/create', async function (req, res) {
 
 // 获取所有数据结构
 app.get('/tables', require('./api/tables'))
+
+// 获取所有数据结构
+app.use('/surface/curd', require('./api/curd'))
+
 app.get('/tables/surface', require('./api/tablesSurface'))
 // 获取表数据
 app.get('/tables/listPage', require('./api/tablesListPage'))
