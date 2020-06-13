@@ -1,13 +1,15 @@
 <!--
  * @Author: your name
  * @Date: 2020-06-06 12:46:34
- * @LastEditTime: 2020-06-11 23:10:32
- * @LastEditors: your name
+ * @LastEditTime: 2020-06-13 21:37:15
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\README.md
 --> 
   <div class="homePage" style="line-height: 40px;">
     <h1>代码生成器(框架生成说明介绍)</h1>
+    <h3>注意：</h3>
+    <p>1.表的基础结构分别为id,createtime,updatetime</p>
     <h3>介绍</h3>
     <p>该套代码生成器仅限于 node框架内的结构生成规则, 所有生成的实现统一在服务端进行处理, 然后返回, 如需要进行修改, 修改后台服务的接口实现即可。</p>
     <h3>内容</h3>

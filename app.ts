@@ -4,7 +4,7 @@
  * @Author: Zhang Zi Fang
  * @Date: 2019-09-27 09:01:42
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2020-06-11 23:24:18
+ * @LastEditTime: 2020-06-13 23:00:41
  */
 import express = require('express');
 var bodyParser = require('body-parser');
@@ -18,8 +18,8 @@ var logger = log4js.getLogger();
 logger.level = 'info'; // default level is OFF - which means no logs at all.
 logger.info('Log from default logger');
 app.use(express.static(path.join(__dirname, "public")));
-// app.use(bodyParser.urlenstatusd({ extended: true, limit: '50mb' }));
-// app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+app.use(bodyParser.json({ limit: '50mb' }));
 
 app.use('*', function (req, res, next) {
 	var json = fs.readFileSync('./config/index.json', "utf-8")
@@ -29,6 +29,21 @@ app.use('*', function (req, res, next) {
 	} else {
 		next()
 	}
+})
+app.post('/generate/json', function (req, res) {
+	interface ReqBody {
+		name: string,
+		datalist: any
+	}
+	var json = fs.readFileSync(__dirname + '/DaveFile/database/watch.json', "utf-8")
+	json = JSON.parse(json)
+	var { name, datalist }: ReqBody = req.body
+	json[name] = req.body.datalist
+	fs.writeFileSync(__dirname + '/DaveFile/database/watch.json', JSON.stringify(json))
+	res.send({
+		status: 200,
+		data: '保存成功'
+	})
 })
 
 // 数据库链接
