@@ -102,6 +102,10 @@ app.get('/database/create', async function (req, res) {
 
 // 获取所有数据结构
 app.get('/tables', require('./api/tables'))
+
+// 获取所有数据结构
+app.use('/surface/curd', require('./api/curd'))
+
 app.get('/tables/surface', require('./api/tablesSurface'))
 // 获取表数据
 app.get('/tables/listPage', require('./api/tablesListPage'))

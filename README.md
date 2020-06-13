@@ -39,4 +39,12 @@
       <br />9.文档生成高级用法,数据库联表表查询
       <br />10.多环境切换/多orm供选择
     </p>
+    <p>需要先创建链接如下操作</p>
+    <img src="https://zzf9.com/images/1.png"/>
+    <p></p>
+    <img src="https://zzf9.com/images/2.png"/>
+    <p></p>
+    <img src="https://zzf9.com/images/3.png"/>
+	
+	####  Q群：978613019   Dave专用催更。bug，交流专用群
   </div>
