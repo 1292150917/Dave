@@ -4,7 +4,7 @@
  * @Author: Zhang Zi Fang
  * @Date: 2019-09-27 09:01:42
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2020-06-13 23:00:41
+ * @LastEditTime: 2020-06-14 21:10:32
  */
 import express = require('express');
 var bodyParser = require('body-parser');
@@ -45,6 +45,49 @@ app.post('/generate/json', function (req, res) {
 		data: '保存成功'
 	})
 })
+app.post('/generate/create', function (req, res) {
+	interface ReqBody {
+		name: string,
+		ORM: string
+	}
+	var json = fs.readFileSync(__dirname + '/DaveFile/database/watch.json', "utf-8")
+	var create = require(__dirname + '/template/mysql/sequelize/create.ts')
+	json = JSON.parse(json)
+	var { name, ORM }: ReqBody = req.body
+	var addOrm: any = [] //可新增的字段
+	if (ORM === 'sequelize') {
+		json[name].map((s: any) => {
+			if (s.add) {
+				addOrm.push({
+					name: s.Field,
+					null: s.required
+				})
+			}
+		})
+		var data: any = []
+		// curd
+		data.push({
+			name: "cored.js",
+			msg: create({ addOrm })
+		})
+		data.push({
+			name: "model/model.js",
+			msg: require(__dirname + '/template/mysql/sequelize/model.ts')({ server: json[name] })
+		})
+		// curd
+		var json = fs.readFileSync('./config/index.json', "utf-8")
+		json = JSON.parse(json)
+		data.push({
+			name: "config/db.js",
+			msg: require(__dirname + '/template/mysql/sequelize/db.ts')({ db: json })
+		})
+		res.send({
+			status: 200,
+			msg: data
+		})
+	}
+})
+
 
 // 数据库链接
 app.get('/database/create', async function (req, res) {

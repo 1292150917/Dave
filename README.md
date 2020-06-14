@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-06-06 12:46:34
- * @LastEditTime: 2020-06-13 21:37:15
+ * @LastEditTime: 2020-06-14 22:21:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\README.md
@@ -26,12 +26,12 @@
     <p>
       1.数据动态链接，数据结构的管控
       <br />2.表中的数据查看
+      <br />3.数据可在视图中进行编辑修改。
+      <br />4.可通过表/类结构实现api生成
+      <br />5.可通过表/类结构实现接口文档生成
     </p>
     <h3>未来会完成的</h3>
     <p>
-      1.数据可在视图中进行编辑修改。
-      <br />2.可通过表/类结构实现api生成
-      <br />3.可通过表/类结构实现接口文档生成
       <br />4.可实现操作监控
       <br />6.可管控定时任务
       <br />7.微信小程序/公众号专用区域 - 微信支付快速生成 快速授权 -等jsdk操作
@@ -45,6 +45,12 @@
     <img src="https://zzf9.com/images/2.png"/>
     <p></p>
     <img src="https://zzf9.com/images/3.png"/>
+    <p></p>
+    <img src="https://zzf9.com/images/4.png"/>
+    <p>可自定义配置参数是否可查询可匹配</p>
+    <img src="https://zzf9.com/images/5.png"/>
+    <p>生成代码存在model模型 curd代码等 复制下载一件匹配</p>
+    <img src="https://zzf9.com/images/6.png"/>
 	
 	####  Q群：978613019   Dave专用催更。bug，交流专用群
   </div>
