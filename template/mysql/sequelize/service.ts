@@ -38,7 +38,7 @@ class Service{
         var data = {}
         // 生成验证规则 name验证字段 test为正则 空验证匹配空数据
         var testList = [
-            ${JSON.stringify(list)}
+            ${list.length ? JSON.stringify(list) : ''}
         ]
         var verification = this.verify(testList,req.body)
         if(!verification){
@@ -75,7 +75,20 @@ class Service{
         })
     }
     update(req,res){
-
+        ${name}.update({${updateOrm.map((s: any) => {
+                return `
+                ${s.name}:req.body["${s.name}"]`
+   })}
+        },{
+            where: {
+                id:req.body.id
+            }
+        }).then((s) => {
+            data = {
+                status: 200,
+                data: s[0]
+            }
+        })
     }
     delete(req,res){
         if(${deleteOrm.map((s: any,i:number) => { return `!req.body["${s.name}"] ${i !== deleteOrm.length-1 ? '&& ' : ''}`}).join('')}){

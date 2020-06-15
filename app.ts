@@ -4,7 +4,7 @@
  * @Author: Zhang Zi Fang
  * @Date: 2019-09-27 09:01:42
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2020-06-14 21:10:32
+ * @LastEditTime: 2020-06-15 20:21:19
  */
 import express = require('express');
 var bodyParser = require('body-parser');
@@ -13,8 +13,8 @@ const app: express.Application = express();
 var monitoring = require('./DaveFile/monitoring.json')
 var log4js = require('log4js');
 var path = require('path')
-var fs = require('fs')
 var logger = log4js.getLogger();
+var fs = require('fs')
 logger.level = 'info'; // default level is OFF - which means no logs at all.
 logger.info('Log from default logger');
 app.use(express.static(path.join(__dirname, "public")));
@@ -30,137 +30,8 @@ app.use('*', function (req, res, next) {
 		next()
 	}
 })
-app.post('/generate/json', function (req, res) {
-	interface ReqBody {
-		name: string,
-		datalist: any
-	}
-	var json = fs.readFileSync(__dirname + '/DaveFile/database/watch.json', "utf-8")
-	json = JSON.parse(json)
-	var { name, datalist }: ReqBody = req.body
-	json[name] = req.body.datalist
-	fs.writeFileSync(__dirname + '/DaveFile/database/watch.json', JSON.stringify(json))
-	res.send({
-		status: 200,
-		data: '保存成功'
-	})
-})
-app.post('/generate/create', function (req, res) {
-	interface ReqBody {
-		name: string,
-		ORM: string
-	}
-	var json = fs.readFileSync(__dirname + '/DaveFile/database/watch.json', "utf-8")
-	var create = require(__dirname + '/template/mysql/sequelize/controller.ts')
-	json = JSON.parse(json)
-	var { name, ORM }: ReqBody = req.body
-	var addOrm: any = [] //可新增的字段
-	var updateOrm: any = [] //可更新字段
-	var deleteOrm: any = [] //可删除字段
-	
-	if (ORM === 'sequelize') {
-		json[name].map((s: any) => {
-			if (s.add) {
-				addOrm.push({
-					name: s.Field,
-					null: s.required
-				})
-			}
-			if (s.update) {
-				updateOrm.push({
-					name: s.Field,
-					item: s
-				})
-			}
-			if(s.delete){
-				deleteOrm.push({
-					name: s.Field,
-					item: s
-				})
-			}
-		})
-		var data: any = []
-		// curd
-		data.push({
-			name: "controller.js",
-			msg: create({ addOrm, name })
-		})
-		data.push({
-			name: `service/${name}.js`,
-			msg: require(__dirname + '/template/mysql/sequelize/service.ts')({ addOrm, name, data: json[name], updateOrm,deleteOrm })
-		})
-		data.push({
-			name: "model/model.js",
-			msg: require(__dirname + '/template/mysql/sequelize/model.ts')({ server: json[name], name })
-		})
-		// curd
-		var json = fs.readFileSync('./config/index.json', "utf-8")
-		json = JSON.parse(json)
-		data.push({
-			name: "config/db.js",
-			msg: require(__dirname + '/template/mysql/sequelize/db.ts')({ db: json, name })
-		})
-		res.send({
-			status: 200,
-			msg: data
-		})
-	}
-})
-
-
-// 数据库链接
-app.get('/database/create', async function (req, res) {
-	var json = fs.readFileSync('./config/index.json', "utf-8")
-	json = JSON.parse(json)
-	Object.keys(req.query).map(s => {
-		json[s] = req.query[s]
-	})
-	fs.writeFileSync('./config/index.json', JSON.stringify(json))
-	// 创建数据库
-	if (req.query.create) {
-		db = mysql.createConnection({
-			host: req.query.host,
-			port: req.query.port,
-			user: req.query.user,
-			password: req.query.password,
-		})
-		let sql = `CREATE DATABASE ${req.query.database}`
-		db.query(sql, (err: any, result: any) => {
-			if (err) {
-				res.send({
-					status: 200,
-					msg: "链接错误！",
-					msgData: err
-				})
-			}
-		})
-		res.send({
-			status: 200,
-		})
-		return
-	} else {
-		var db = mysql.createConnection({
-			host: req.query.host,
-			port: req.query.port,
-			user: req.query.user,
-			password: req.query.password,
-			database: req.query.database,
-		})
-		db.connect((err: any) => {
-			if (err) {
-				res.send({
-					status: 200,
-					msg: "链接错误！",
-					msgData: err
-				})
-				return
-			}
-			res.send({
-				status: 200,
-			})
-		})
-	}
-})
+// 代码生成部分
+app.use('/generate', require('./api/generate'))
 
 // 获取所有数据结构
 app.get('/tables', require('./api/tables'))
