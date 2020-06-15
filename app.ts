@@ -51,10 +51,13 @@ app.post('/generate/create', function (req, res) {
 		ORM: string
 	}
 	var json = fs.readFileSync(__dirname + '/DaveFile/database/watch.json', "utf-8")
-	var create = require(__dirname + '/template/mysql/sequelize/create.ts')
+	var create = require(__dirname + '/template/mysql/sequelize/controller.ts')
 	json = JSON.parse(json)
 	var { name, ORM }: ReqBody = req.body
 	var addOrm: any = [] //可新增的字段
+	var updateOrm: any = [] //可更新字段
+	var deleteOrm: any = [] //可删除字段
+	
 	if (ORM === 'sequelize') {
 		json[name].map((s: any) => {
 			if (s.add) {
@@ -63,23 +66,39 @@ app.post('/generate/create', function (req, res) {
 					null: s.required
 				})
 			}
+			if (s.update) {
+				updateOrm.push({
+					name: s.Field,
+					item: s
+				})
+			}
+			if(s.delete){
+				deleteOrm.push({
+					name: s.Field,
+					item: s
+				})
+			}
 		})
 		var data: any = []
 		// curd
 		data.push({
-			name: "cored.js",
-			msg: create({ addOrm })
+			name: "controller.js",
+			msg: create({ addOrm, name })
+		})
+		data.push({
+			name: `service/${name}.js`,
+			msg: require(__dirname + '/template/mysql/sequelize/service.ts')({ addOrm, name, data: json[name], updateOrm,deleteOrm })
 		})
 		data.push({
 			name: "model/model.js",
-			msg: require(__dirname + '/template/mysql/sequelize/model.ts')({ server: json[name] })
+			msg: require(__dirname + '/template/mysql/sequelize/model.ts')({ server: json[name], name })
 		})
 		// curd
 		var json = fs.readFileSync('./config/index.json', "utf-8")
 		json = JSON.parse(json)
 		data.push({
 			name: "config/db.js",
-			msg: require(__dirname + '/template/mysql/sequelize/db.ts')({ db: json })
+			msg: require(__dirname + '/template/mysql/sequelize/db.ts')({ db: json, name })
 		})
 		res.send({
 			status: 200,
