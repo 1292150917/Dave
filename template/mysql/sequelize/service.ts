@@ -4,9 +4,9 @@ interface Render {
     name: any,
     data: any,
     updateOrm: any,
-    deleteOrm:any
+    deleteOrm: any
 }
-var render = function ({ addOrm, name, updateOrm,deleteOrm }: Render) {
+var render = function ({ addOrm, name, updateOrm, deleteOrm }: Render) {
     // 生成验证规则
     var list: any = []
     var toName = name.replace(name[0], (v: any) => { return v.toUpperCase() }) //首字母大写
@@ -24,7 +24,7 @@ class Service{
     constructor(){
     }
     verify (test,val){
-        for(var item from test){
+        for(var item in test){
             if(!val[test[item].name]){
                 return test[item].name + "为空"
             }
@@ -76,9 +76,9 @@ class Service{
     }
     update(req,res){
         ${name}.update({${updateOrm.map((s: any) => {
-                return `
+        return `
                 ${s.name}:req.body["${s.name}"]`
-   })}
+    })}
         },{
             where: {
                 id:req.body.id
@@ -91,32 +91,35 @@ class Service{
         })
     }
     delete(req,res){
-        if(${deleteOrm.map((s: any,i:number) => { return `!req.body["${s.name}"] ${i !== deleteOrm.length-1 ? '&& ' : ''}`}).join('')}){
-            data = {
-                status: 201,
-                data: '缺少主要参数'
+        ${deleteOrm.length != 0 ? (function () {
+            return (`if(${deleteOrm.map((s: any, i: number) => { return `!req.body["${s.name}"] ${i !== deleteOrm.length - 1 ? '&& ' : ''}` }).join('')}){
+                data = {
+                    status: 201,
+                    data: '缺少主要参数'
+                }
+                return
             }
-            return
-        }
-        ${name}.destroy({
-            where: {${deleteOrm.map((s: any) => {
-                 return `
-                 ${s.name}:req.body["${s.name}"]`
-    })}
-            }
-        }).then((s) => {
-            data = {
-                status: 200,
-                data: '删除成功'
-            }
-        })
+            ${name}.destroy({
+                where: {${deleteOrm.map((s: any) => {
+                return `
+                     ${s.name}:req.body["${s.name}"]`
+            })}
+                }
+            }).then((s) => {
+                data = {
+                    status: 200,
+                    data: '删除成功'
+                }
+            })`)
+        }()) : ''}
+        
     }
     query(req,res){
         ${name}.findAll({
             where: {${updateOrm.map((s: any) => {
-                 return `
+            return `
                  ${s.name}:req.body["${s.name}"]`
-    })}
+        })}
             }
         }).then((s) => {
             data = {

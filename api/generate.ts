@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-15 20:18:08
- * @LastEditTime: 2020-06-15 22:04:27
+ * @LastEditTime: 2020-06-16 23:48:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\api\generate.ts
@@ -23,6 +23,23 @@ function cv(v: any) {
     return path.resolve(__dirname, v)
 }
 unity = new unity()
+function fileDisplay(url, list, name) {
+    var fsreadd = fs.readdirSync(cv(url))
+    fsreadd.forEach(item => {
+        var filedir = url + '/' + item
+        if (!fs.statSync(filedir).isDirectory()) {
+            // 读取文件内容
+            var content = fs.readFileSync(filedir, 'utf-8');
+            list.push({
+                msg: content,
+                name: name ? name + '/' + item : item
+            })
+        } else {
+            fileDisplay(filedir, list,name = item);//递归，如果是文件夹，就继续遍历该文件夹下面的文件
+        }
+    })
+    return list
+}
 function createHtml(req: any, res: any) {
     interface ReqBody {
         name: any,
@@ -71,16 +88,18 @@ function createHtml(req: any, res: any) {
                 name: `model/${name[index]}.js`,
                 msg: require(cv('../template/mysql/sequelize/model.ts'))({ server: json[name[index]], name: name[index] })
             })
-            // curd
-            var jsoncurd = fs.readFileSync(cv('../config/index.json'), "utf-8")
-            jsoncurd = JSON.parse(jsoncurd)
-            data.push({
-                name: "config/db.js",
-                msg: require(cv('../template/mysql/sequelize/db.ts'))({ db: jsoncurd, name: name[index] })
-            })
         }
 
     }
+    // curd
+    var jsoncurd = fs.readFileSync(cv('../config/index.json'), "utf-8")
+    jsoncurd = JSON.parse(jsoncurd)
+
+    data.push({
+        name: "config/db.js",
+        msg: require(cv('../template/mysql/sequelize/db.ts'))({ db: jsoncurd })
+    })
+    data.push(...fileDisplay(cv('../template/mysql/sequelize/app'), []))
     res.send({
         status: 200,
         msg: data
@@ -88,6 +107,18 @@ function createHtml(req: any, res: any) {
 }
 router.post('/create', async function (req: any, res: any) {
     createHtml(req, res)
+})
+router.post('/query', async function (req: any, res: any) {
+    interface ReqBody {
+        name: string
+    }
+    var json = fs.readFileSync(cv('../DaveFile/database/watch.json'), "utf-8")
+    json = JSON.parse(json)
+    var { name }: ReqBody = req.body
+    res.send({
+        status: 200,
+        data: json[name] ? json[name] : []
+    })
 })
 router.post('/json', async function (req: any, res: any) {
     interface ReqBody {

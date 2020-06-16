@@ -8,7 +8,7 @@ const sequelize = new Sequelize('${db.database}', '${db.user}', '${db.password}'
   host: '${db.host}',
   port:${db.port},
   dialect: 'mysql',
-  timezone : ${db.timezone},
+  timezone : "${db.timezone}",
 });
 
 exports.sequelize = sequelize;

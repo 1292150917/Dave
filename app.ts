@@ -4,7 +4,7 @@
  * @Author: Zhang Zi Fang
  * @Date: 2019-09-27 09:01:42
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2020-06-15 20:21:19
+ * @LastEditTime: 2020-06-16 23:42:23
  */
 import express = require('express');
 var bodyParser = require('body-parser');
@@ -34,11 +34,9 @@ app.use('*', function (req, res, next) {
 app.use('/generate', require('./api/generate'))
 
 // 获取所有数据结构
-app.get('/tables', require('./api/tables'))
-
-// 获取所有数据结构
 app.use('/surface/curd', require('./api/curd'))
-
+// 获取所有数据结构
+app.get('/tables', require('./api/tables'))
 app.get('/tables/surface', require('./api/tablesSurface'))
 // 获取表数据
 app.get('/tables/listPage', require('./api/tablesListPage'))
