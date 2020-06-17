@@ -42,6 +42,7 @@ router.post('/delete', async function (req, res, next) {
     let data = await service${toName}.delete(req,res)
     res.send(data)
 });
+module.exports = router
     `
     return template
 }

@@ -8,10 +8,12 @@ const sequelize = new Sequelize('${db.database}', '${db.user}', '${db.password}'
   host: '${db.host}',
   port:${db.port},
   dialect: 'mysql',
-  timezone : "${db.timezone}",
-});
+  define: {
+    timestamps: false
+  }
+}); 
 
-exports.sequelize = sequelize;
+module.exports = sequelize;
     `
     return template
 }

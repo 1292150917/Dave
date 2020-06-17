@@ -1,11 +1,4 @@
-/*
- * @Descripttion:
- * @version:
- * @Author: Zhang Zi Fang
- * @Date: 2019-09-27 09:01:42
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2020-06-16 23:42:23
- */
+
 import express = require('express');
 var bodyParser = require('body-parser');
 const mysql = require('mysql')
@@ -20,8 +13,8 @@ logger.info('Log from default logger');
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json({ limit: '50mb' }));
-
-app.use('*', function (req, res, next) {
+  
+app.use('*', function (req:any, res:any, next:any) {
 	var json = fs.readFileSync('./config/index.json', "utf-8")
 	json = JSON.parse(json)
 	if (!json.host && !req.query.host) {

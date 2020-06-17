@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-21 13:42:27
- * @LastEditTime: 2020-06-16 21:03:59
+ * @LastEditTime: 2020-06-17 23:05:44
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\tablesSurface.ts
@@ -23,6 +23,18 @@ class tablesSurface extends unity {
         var { res, req } = this
         var query = require('../config/mysql');
         var tables = await query({ sql: "show full tables", res })
+        var created = await query({
+            sql: `SELECT
+                TABLE_NAME,
+                TABLE_COMMENT,
+                TABLE_ROWS,
+                CREATE_TIME,
+                UPDATE_TIME
+                FROM
+                    information_schema.TABLES
+                WHERE
+        table_schema = 'test'`, res
+        })
         var list = []
         var json = fs.readFileSync(cv('../DaveFile/database/watch.json'), "utf-8")
         json = JSON.parse(json)
@@ -52,6 +64,9 @@ class tablesSurface extends unity {
                 name: name,
                 index: i
             })
+        })
+        list.forEach(s =>{
+            s.msg = created.filter(v =>v.TABLE_NAME === s.name)[0]
         })
         res.send({
             status: 200,

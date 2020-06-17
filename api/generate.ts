@@ -14,6 +14,7 @@ var unity = require('../config/part_unity')
 var query = require('../config/mysql');
 var path = require('path')
 var fs = require('fs')
+var SequelizeAuto = require('sequelize-auto')
 interface Callback {
     status: number,
     msg?: "",
@@ -25,7 +26,8 @@ function cv(v: any) {
 unity = new unity()
 function fileDisplay(url, list, name) {
     var fsreadd = fs.readdirSync(cv(url))
-    fsreadd.forEach(item => {
+    for (let i in fsreadd) {
+        var item = fsreadd[i]
         var filedir = url + '/' + item
         if (!fs.statSync(filedir).isDirectory()) {
             // 读取文件内容
@@ -35,12 +37,12 @@ function fileDisplay(url, list, name) {
                 name: name ? name + '/' + item : item
             })
         } else {
-            fileDisplay(filedir, list,name = item);//递归，如果是文件夹，就继续遍历该文件夹下面的文件
+            fileDisplay(filedir, list, item);//递归，如果是文件夹，就继续遍历该文件夹下面的文件
         }
-    })
+    }
     return list
 }
-function createHtml(req: any, res: any) {
+async function createHtml(req: any, res: any) {
     interface ReqBody {
         name: any,
         ORM: string
@@ -50,6 +52,24 @@ function createHtml(req: any, res: any) {
     json = JSON.parse(json)
     var { name, ORM }: ReqBody = req.body
     var data: any = []
+    var auto = new SequelizeAuto('test', 'root', '123456', {
+        host: 'localhost',
+        dialect: 'mysql',
+        directory: false,
+        port: '3306',
+        additional: {
+            timestamps: false
+        },
+        tables: name
+    })
+    var tables:any = []
+	await new Promise(s =>{
+		auto.run(async function (err) {
+			if (err) throw err;
+			tables = auto.tables
+			s(true)
+		});
+	})
     for (var index in name) {
         var addOrm: any = [] //可新增的字段
         var updateOrm: any = [] //可更新字段
@@ -85,8 +105,8 @@ function createHtml(req: any, res: any) {
                 msg: require(cv('../template/mysql/sequelize/service.ts'))({ addOrm, name: name[index], data: json[name[index]], updateOrm, deleteOrm })
             })
             data.push({
-                name: `model/${name[index]}.js`,
-                msg: require(cv('../template/mysql/sequelize/model.ts'))({ server: json[name[index]], name: name[index] })
+                name: `models/${name[index]}.js`,
+                msg: require(cv('../template/mysql/sequelize/models.ts'))({ server: json[name[index]], name: name[index],model:tables[name[index]] })
             })
         }
 
@@ -99,7 +119,7 @@ function createHtml(req: any, res: any) {
         name: "config/db.js",
         msg: require(cv('../template/mysql/sequelize/db.ts'))({ db: jsoncurd })
     })
-    data.push(...fileDisplay(cv('../template/mysql/sequelize/app'), []))
+    data.push(...fileDisplay(cv('../template/mysql/sequelize/app'), [], ''))
     res.send({
         status: 200,
         msg: data

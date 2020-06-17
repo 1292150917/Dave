@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-06-06 12:46:34
- * @LastEditTime: 2020-06-14 22:21:44
+ * @LastEditTime: 2020-06-17 23:14:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\README.md
@@ -30,7 +30,7 @@
       <br />4.可通过表/类结构实现api生成
       <br />5.可通过表/类结构实现接口文档生成
     </p>
-    <h3>未来会完成的</h3>
+    <!-- <h3>未来会完成的</h3>
     <p>
       <br />4.可实现操作监控
       <br />6.可管控定时任务
@@ -38,7 +38,7 @@
       <br />8.高级用法（内含一键生成代码。）从路由到model dao 一键部署。
       <br />9.文档生成高级用法,数据库联表表查询
       <br />10.多环境切换/多orm供选择
-    </p>
+    </p> -->
     <p>需要先创建链接如下操作</p>
     <img src="https://zzf9.com/images/1.png"/>
     <p></p>
@@ -51,6 +51,17 @@
     <img src="https://zzf9.com/images/5.png"/>
     <p>生成代码存在model模型 curd代码等 复制下载一件匹配</p>
     <img src="https://zzf9.com/images/6.png"/>
-	
-	####  Q群：978613019   Dave专用催更。bug，交流专用群
+    <img src="https://zzf9.com/images/7.png"/>
+    <img src="https://zzf9.com/images/8.png"/>
+    <p>代码下载后 执行如下命令</p>
+    <p>npm install</p>
+    <p>npm start</p>
+     
+     
   </div>
+  
+
+  
+
+   
+	####  Q群：978613019   Dave专用催更。bug，交流专用群

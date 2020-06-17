@@ -18,8 +18,9 @@ var render = function ({ addOrm, name, updateOrm, deleteOrm }: Render) {
     // data
     var template = `
 var express = require('express');
-var router = express.Router();
-var ${name} = require('../models/${name}.js').${name}
+var Sequelize = require("Sequelize");
+var db = require('../config/db.js')
+var ${name} = require('../models/${name}.js')
 class Service{
     constructor(){
     }
@@ -62,17 +63,17 @@ class Service{
         }
     }
     // 查询表所有数据
-    queryList(req,res){
-        ${name}.findAll({
-            where: {
-
-            }
-        }).then((s) => {
-            data = {
-                status: 200,
-                data: s[0]
-            }
-        })
+    async queryList(req,res){
+        
+        var data = {}
+        var item = await ${name}.findAll({ where: {} })
+        data = {
+            status: 200,
+            data: item
+        }
+        return {
+            data
+        }
     }
     update(req,res){
         ${name}.update({${updateOrm.map((s: any) => {
