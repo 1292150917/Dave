@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-09 19:16:03
- * @LastEditTime: 2020-06-09 19:16:38
+ * @LastEditTime: 2020-06-18 20:49:49
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\api\tablesUpdate.ts
@@ -32,8 +32,9 @@ class tablesSurface extends unity {
     }
     async go() {
         var { res, req } = this
-        var { yuanName, name } = req.query
+        var { yuanName, name, describe } = req.query
         var tables = await query({ sql: `rename table ${yuanName} to ${name}`, res })
+        await query({ sql: `alter table ${name} comment '${describe}';`, res })
         var key = {}
         res.send({
             status: 200

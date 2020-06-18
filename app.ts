@@ -3,8 +3,8 @@ import express = require('express');
 var bodyParser = require('body-parser');
 const mysql = require('mysql')
 const app: express.Application = express();
-var monitoring = require('./DaveFile/monitoring.json')
 var log4js = require('log4js');
+var cmd = require("node-cmd");
 var path = require('path')
 var logger = log4js.getLogger();
 var fs = require('fs')
@@ -13,8 +13,12 @@ logger.info('Log from default logger');
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json({ limit: '50mb' }));
-  
-app.use('*', function (req:any, res:any, next:any) {
+
+//运行笔记本
+// cmd.get("dir",function(err,data){
+//     console.log(data);
+// });
+app.use('*', function (req: any, res: any, next: any) {
 	var json = fs.readFileSync('./config/index.json', "utf-8")
 	json = JSON.parse(json)
 	if (!json.host && !req.query.host) {
@@ -23,6 +27,64 @@ app.use('*', function (req:any, res:any, next:any) {
 		next()
 	}
 })
+// 数据库链接
+app.get('/database/create', async function (req, res) {
+	var json = fs.readFileSync('./config/index.json', "utf-8")
+	json = JSON.parse(json)
+	Object.keys(req.query).map(s => {
+		Object.keys(req.query).map(s => {
+			json[s] = req.query[s]
+		})
+		fs.writeFileSync('./config/index.json', JSON.stringify(json))
+		// 创建数据库
+		if (req.query.create) {
+			db = mysql.createConnection({
+				host: req.query.host,
+				port: req.query.port,
+				user: req.query.user,
+				password: req.query.password,
+			})
+			let sql = `CREATE DATABASE ${req.query.database}`
+			db.query(sql, (err: any, result: any) => {
+				if (err) {
+					res.send({
+						status: 200,
+						msg: "链接错误！",
+						msgData: err
+					})
+				}
+			})
+			res.send({
+				status: 200,
+			})
+			return
+		} else {
+			var db = mysql.createConnection({
+				host: req.query.host,
+				port: req.query.port,
+				user: req.query.user,
+				password: req.query.password,
+				database: req.query.database,
+			})
+			db.connect((err: any) => {
+				if (err) {
+					res.send({
+						status: 200,
+						msg: "链接错误！",
+						msgData: err
+					})
+					return
+				}
+				res.send({
+					status: 200,
+				})
+			})
+		}
+	})
+})
+// 文档生成
+app.use('/api/apiRender', require('./api/apiRender'))
+
 // 代码生成部分
 app.use('/generate', require('./api/generate'))
 

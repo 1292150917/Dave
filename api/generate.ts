@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-15 20:18:08
- * @LastEditTime: 2020-06-16 23:48:25
+ * @LastEditTime: 2020-06-18 20:44:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\api\generate.ts
@@ -49,27 +49,28 @@ async function createHtml(req: any, res: any) {
     }
     var json = fs.readFileSync(cv('../DaveFile/database/watch.json'), "utf-8")
     var create = require(cv('../template/mysql/sequelize/controller.ts'))
-    json = JSON.parse(json)
+    var jsoncurd = fs.readFileSync(cv('../config/index.json'), "utf-8")
+    jsoncurd = JSON.parse(jsoncurd)
     var { name, ORM }: ReqBody = req.body
     var data: any = []
-    var auto = new SequelizeAuto('test', 'root', '123456', {
-        host: 'localhost',
-        dialect: 'mysql',
+    var auto = new SequelizeAuto(jsoncurd.database, jsoncurd.user, jsoncurd.password, {
+        host: jsoncurd.host,
+        dialect: jsoncurd.type,
         directory: false,
-        port: '3306',
+        port: jsoncurd.port,
         additional: {
             timestamps: false
         },
         tables: name
     })
-    var tables:any = []
-	await new Promise(s =>{
-		auto.run(async function (err) {
-			if (err) throw err;
-			tables = auto.tables
-			s(true)
-		});
-	})
+    var tables: any = []
+    await new Promise(s => {
+        auto.run(async function (err) {
+            if (err) throw err;
+            tables = auto.tables
+            s(true)
+        });
+    })
     for (var index in name) {
         var addOrm: any = [] //可新增的字段
         var updateOrm: any = [] //可更新字段
@@ -106,7 +107,7 @@ async function createHtml(req: any, res: any) {
             })
             data.push({
                 name: `models/${name[index]}.js`,
-                msg: require(cv('../template/mysql/sequelize/models.ts'))({ server: json[name[index]], name: name[index],model:tables[name[index]] })
+                msg: require(cv('../template/mysql/sequelize/models.ts'))({ server: json[name[index]], name: name[index], model: tables[name[index]] })
             })
         }
 
