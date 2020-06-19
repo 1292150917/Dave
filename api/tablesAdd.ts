@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-21 13:42:27
- * @LastEditTime: 2020-06-09 19:17:25
+ * @LastEditTime: 2020-06-18 20:53:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\tablesListPage.ts
@@ -24,11 +24,13 @@ class tablesListPage extends unity {
     }
     async go() {
         var { res, req } = this
-        var { describe, name } = req.query
+        var { describe, name, describe } = req.query
         var sql = `create table ${name} (
             id int (11) NOT NULL PRIMARY KEY AUTO_INCREMENT
         )`
         await query({ sql: sql, res })
+
+        await query({ sql: `alter table ${name} comment '${describe}';`, res })
         res.send({
             status: 200
         })

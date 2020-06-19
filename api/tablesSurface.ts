@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-21 13:42:27
- * @LastEditTime: 2020-06-17 23:05:44
+ * @LastEditTime: 2020-06-18 21:59:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\tablesSurface.ts
@@ -23,6 +23,8 @@ class tablesSurface extends unity {
         var { res, req } = this
         var query = require('../config/mysql');
         var tables = await query({ sql: "show full tables", res })
+        var jsoncurd = fs.readFileSync(cv('../config/index.json'), "utf-8")
+        jsoncurd = JSON.parse(jsoncurd)
         var created = await query({
             sql: `SELECT
                 TABLE_NAME,
@@ -33,17 +35,17 @@ class tablesSurface extends unity {
                 FROM
                     information_schema.TABLES
                 WHERE
-        table_schema = 'test'`, res
+                table_schema = '${jsoncurd.database}'`, res
         })
-        var list = []
+        var list:any = []
         var json = fs.readFileSync(cv('../DaveFile/database/watch.json'), "utf-8")
         json = JSON.parse(json)
         var { database } = this
-        tables.forEach((s, i) => {
-            // 模型不存在的指定初始化模型
-            var name = s[`Tables_in_${database}`]
+        var jsonRender:any = {}
+        for(var index in tables){
+            var name = tables[index][`Tables_in_${database}`]
             if (!json[name]) {
-                query({ sql: `show full columns from ${name}` }).then(item => {
+                 await query({ sql: `show full columns from ${name}` }).then(item => {
                     item.filter(s => {
                         if (s.Extra === "auto_increment") {
                             return;
@@ -56,15 +58,17 @@ class tablesSurface extends unity {
                         s.query = true;
                         return s;
                     });
-                    json[name] = item
-                    fs.writeFileSync(cv('../DaveFile/database/watch.json'), JSON.stringify(json))
+                    jsonRender[name] = item
                 })
+            }else{
+                jsonRender[name] = json[name]
             }
             list.push({
                 name: name,
-                index: i
+                index: index
             })
-        })
+        }
+        fs.writeFileSync(cv('../DaveFile/database/watch.json'), JSON.stringify(jsonRender))
         list.forEach(s =>{
             s.msg = created.filter(v =>v.TABLE_NAME === s.name)[0]
         })
