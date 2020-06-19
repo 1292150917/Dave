@@ -36,7 +36,8 @@
     "typescript": "~3.5.1",
     "urlencode": "^1.1.0",
     "xml2js": "^0.4.22",
-    "xmlreader": "^0.2.3"
+    "xmlreader": "^0.2.3",
+    "zip-local": "^0.3.4"
   },
   "author": "",
   "license": "ISC",

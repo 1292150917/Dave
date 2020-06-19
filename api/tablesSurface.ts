@@ -42,11 +42,10 @@ class tablesSurface extends unity {
         json = JSON.parse(json)
         var { database } = this
         var jsonRender:any = {}
-        tables.forEach((s, i) => {
-            // 模型不存在的指定初始化模型
-            var name = s[`Tables_in_${database}`]
+        for(var index in tables){
+            var name = tables[index][`Tables_in_${database}`]
             if (!json[name]) {
-                query({ sql: `show full columns from ${name}` }).then(item => {
+                 await query({ sql: `show full columns from ${name}` }).then(item => {
                     item.filter(s => {
                         if (s.Extra === "auto_increment") {
                             return;
@@ -66,9 +65,9 @@ class tablesSurface extends unity {
             }
             list.push({
                 name: name,
-                index: i
+                index: index
             })
-        })
+        }
         fs.writeFileSync(cv('../DaveFile/database/watch.json'), JSON.stringify(jsonRender))
         list.forEach(s =>{
             s.msg = created.filter(v =>v.TABLE_NAME === s.name)[0]

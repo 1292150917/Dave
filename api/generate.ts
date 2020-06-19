@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-15 20:18:08
- * @LastEditTime: 2020-06-18 20:44:27
+ * @LastEditTime: 2020-06-19 23:01:26
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\api\generate.ts
@@ -45,13 +45,15 @@ function fileDisplay(url, list, name) {
 async function createHtml(req: any, res: any) {
     interface ReqBody {
         name: any,
-        ORM: string
+        ORM: string,
+        download:string
     }
     var json = fs.readFileSync(cv('../DaveFile/database/watch.json'), "utf-8")
     var create = require(cv('../template/mysql/sequelize/controller.ts'))
     var jsoncurd = fs.readFileSync(cv('../config/index.json'), "utf-8")
     jsoncurd = JSON.parse(jsoncurd)
-    var { name, ORM }: ReqBody = req.body
+    json = JSON.parse(json)
+    var { name, ORM,download }: ReqBody = req.body
     var data: any = []
     var auto = new SequelizeAuto(jsoncurd.database, jsoncurd.user, jsoncurd.password, {
         host: jsoncurd.host,
@@ -120,7 +122,9 @@ async function createHtml(req: any, res: any) {
         name: "config/db.js",
         msg: require(cv('../template/mysql/sequelize/db.ts'))({ db: jsoncurd })
     })
-    data.push(...fileDisplay(cv('../template/mysql/sequelize/app'), [], ''))
+    if(download){
+        data.push(...fileDisplay(cv('../template/mysql/sequelize/app'), [], ''))
+    }
     res.send({
         status: 200,
         msg: data

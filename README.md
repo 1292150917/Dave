@@ -114,12 +114,9 @@ Dave是一种专为API而生的 JSON网络传输协议 以及 基于这套协议
     <p>代码下载后 执行如下命令</p>
     <p>npm install</p>
     <p>npm run node</p>
-     
-     
   </div>
   
-
-  
+  ### 代码不是伪开源 此处是node代码 前端代码是加密后的 因为前端选用vue 迫不得已  [前端开源地址](https://gitee.com/zzf0529/Dave-leading)
 
    
 	####  Q群：978613019   Dave专用催更。bug，交流专用群

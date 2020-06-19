@@ -4,7 +4,6 @@ var bodyParser = require('body-parser');
 const mysql = require('mysql')
 const app: express.Application = express();
 var log4js = require('log4js');
-var cmd = require("node-cmd");
 var path = require('path')
 var logger = log4js.getLogger();
 var fs = require('fs')
@@ -15,9 +14,6 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json({ limit: '50mb' }));
 
 //运行笔记本
-// cmd.get("dir",function(err,data){
-//     console.log(data);
-// });
 app.use('*', function (req: any, res: any, next: any) {
 	var json = fs.readFileSync('./config/index.json', "utf-8")
 	json = JSON.parse(json)
@@ -84,7 +80,6 @@ app.get('/database/create', async function (req, res) {
 })
 // 文档生成
 app.use('/api/apiRender', require('./api/apiRender'))
-
 // 代码生成部分
 app.use('/generate', require('./api/generate'))
 
