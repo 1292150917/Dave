@@ -53,7 +53,11 @@ async function createHtml(req: any, res: any) {
     var jsoncurd = fs.readFileSync(cv('../config/index.json'), "utf-8")
     jsoncurd = JSON.parse(jsoncurd)
     json = JSON.parse(json)
+<<<<<<< HEAD
     var { name, ORM,download }: ReqBody = req.body
+=======
+    var { name, ORM }: ReqBody = req.body
+>>>>>>> 7879ea36c15bb0562cf870bbbb03090168091c8a
     var data: any = []
     var auto = new SequelizeAuto(jsoncurd.database, jsoncurd.user, jsoncurd.password, {
         host: jsoncurd.host,
