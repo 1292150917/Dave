@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-06-06 12:46:34
- * @LastEditTime: 2020-06-18 20:15:53
+ * @LastEditTime: 2020-06-20 18:59:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\README.md
@@ -40,6 +40,12 @@ Dave是一种专为API而生的 JSON网络传输协议 以及 基于这套协议
 * 自动生成各种语言代码，一键下载
 * 自动管理与测试接口用例，一键共享
 * 自动给请求JSON加注释，一键切换
+
+#### 特殊用法
+* 自动生成公众号授权/支付/分享等代码
+* 自动生成小程序授权/支付/分享等代码
+* 公众号管理
+* 小程序管理
 
 #### 对于前端
 * 不用再向后端催接口、求文档
@@ -98,19 +104,20 @@ Dave是一种专为API而生的 JSON网络传输协议 以及 基于这套协议
       <br />10.多环境切换/多orm供选择
     </p> -->
     <p>需要先创建链接如下操作</p>
+    <p>进行数据库链接</p>
     <img src="https://zzf9.com/images/1.png"/>
-    <p></p>
+    <p>网页附属功能可以查看修改您的数据结构（不推荐使用-可修改表描述）</p>
     <img src="https://zzf9.com/images/2.png"/>
-    <p></p>
+    <p>可以对数据进行增删改查</p>
     <img src="https://zzf9.com/images/3.png"/>
-    <p></p>
+    <p>代码生成部分，mvc数据结构</p>
     <img src="https://zzf9.com/images/4.png"/>
-    <p>可自定义配置参数是否可查询可匹配</p>
+    <p>生成代码目录结构</p>
     <img src="https://zzf9.com/images/5.png"/>
-    <p>生成代码存在model模型 curd代码等 复制下载一件匹配</p>
+    <p>可一键生成文档</p>
     <img src="https://zzf9.com/images/6.png"/>
+    <p>文档样式，并且支持在线调试结构</p>
     <img src="https://zzf9.com/images/7.png"/>
-    <img src="https://zzf9.com/images/8.png"/>
     <p>代码下载后 执行如下命令</p>
     <p>npm install</p>
     <p>npm run node</p>

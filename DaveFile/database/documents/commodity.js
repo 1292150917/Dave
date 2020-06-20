@@ -1,66 +1,66 @@
 
         /**
-         * @api {post} /cesfew/add 系统信息表新增
+         * @api {post} /commodity/add 商品表新增
          * @apiDescription ""
-         * @apiName Addcesfew
-         * @apiGroup cesfew配置
+         * @apiName Addcommodity
+         * @apiGroup commodity配置
          * @apiParam {string} id 主键 新增误发
          
          * @apiSuccess {json} code
-         * @apiSampleRequest /cesfew/add
+         * @apiSampleRequest /commodity/add
          * @apiVersion 0.0.0
         */
        
 
              
 		/**
-		 * @api {post} /cesfew/query 系统信息表详情
+		 * @api {post} /commodity/query 商品表详情
 		 * @apiDescription ""
-		 * @apiName PostListcesfew
-		 * @apiGroup cesfew配置
+		 * @apiName PostListcommodity
+		 * @apiGroup commodity配置
          * @apiParam {string} id 主键 新增误发
          
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest /cesfew/query
+		 * @apiSampleRequest /commodity/query
 		 * @apiVersion 0.0.0
 		 */
 
         /**
-		 * @api {post} /cesfew/queryList 系统信息表列表
+		 * @api {post} /commodity/queryList 商品表列表
 		 * @apiDescription ""
-		 * @apiName GetListcesfew
-		 * @apiGroup cesfew配置
+		 * @apiName GetListcommodity
+		 * @apiGroup commodity配置
          * @apiParam {string} id 主键 新增误发
          
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest /cesfew/queryList
+		 * @apiSampleRequest /commodity/queryList
 		 * @apiVersion 0.0.0
 		 */
 
 
        /**
-        * @api {post} /cesfew/update 系统信息表修改
+        * @api {post} /commodity/update 商品表修改
         * @apiDescription ""
-        * @apiName Postcesfew
-        * @apiGroup cesfew配置
+        * @apiName Postcommodity
+        * @apiGroup commodity配置
         * @apiParam {string} id 主键 新增误发
         
        
         * @apiSuccess {json} code
-        * @apiSampleRequest /cesfew/update
+        * @apiSampleRequest /commodity/update
         * @apiVersion 0.0.0
        */
 
        
 		/**
-		 * @api {post} /cesfew/delete 系统信息表删除
+		 * @api {post} /commodity/delete 商品表删除
 		 * @apiDescription ""
-		 * @apiName deletecesfew
-		 * @apiGroup cesfew配置
+		 * @apiName deletecommodity
+		 * @apiGroup commodity配置
          * @apiParam {string} id 主键 新增误发
          
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest /cesfew/delete
+		 * @apiSampleRequest /commodity/delete
 		 * @apiVersion 0.0.0
 		 */
     

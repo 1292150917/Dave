@@ -32,24 +32,25 @@ class Service{
         }
     }
     // 新增数据
-    add(req,res){
+    async add(req,res){
         let { ${addOrm.map((s: any) => {
         return ` ${s.name} `
     })} } = req.body
         var data = {}
+        var msg = {
+            id:0
+        }
         // 生成验证规则 name验证字段 test为正则 空验证匹配空数据
         var testList = [
             ${list.length ? JSON.stringify(list) : ''}
         ]
         var verification = this.verify(testList,req.body)
         if(!verification){
-            ${name}.findAll({
-                where: {
-                    ${addOrm.map((s: any) => {
-        return ` ${s.name} `
-    })}
-                }
-            }).then((s) => {
+            ${addOrm.map((s: any) => {
+                return `
+                req.body["${s.name}"] ? msg["${s.name}"] = req.body["${s.name}"] : ''`
+            }).join('')}
+            await ${name}.create(msg).then((s) => {
                 data = {
                     status: 200,
                     data: s[0]
@@ -61,10 +62,10 @@ class Service{
                 data: verification
             }
         }
+        return data
     }
     // 查询表所有数据
     async queryList(req,res){
-        
         var data = {}
         var item = await ${name}.findAll({ where: {} })
         data = {
@@ -75,23 +76,25 @@ class Service{
             data
         }
     }
-    update(req,res){
-        ${name}.update({${updateOrm.map((s: any) => {
-        return `
-                ${s.name}:req.body["${s.name}"]`
-    })}
-        },{
+    async update(req,res){
+        var update = {}
+        ${updateOrm.map((s: any) => {
+            return `
+            req.body["${s.name}"] ? update["${s.name}"] = req.body["${s.name}"] : ''`
+        }).join('')}
+        
+        var item = await ${name}.update(update,{
             where: {
                 id:req.body.id
             }
-        }).then((s) => {
-            data = {
-                status: 200,
-                data: s[0]
-            }
         })
+        return {
+            status: 200,
+            data: '修改成功'
+        }
     }
-    delete(req,res){
+    async delete(req,res){
+        var data = {}
         ${deleteOrm.length != 0 ? (function () {
             return (`if(${deleteOrm.map((s: any, i: number) => { return `!req.body["${s.name}"] ${i !== deleteOrm.length - 1 ? '&& ' : ''}` }).join('')}){
                 data = {
@@ -100,7 +103,7 @@ class Service{
                 }
                 return
             }
-            ${name}.destroy({
+            await ${name}.destroy({
                 where: {${deleteOrm.map((s: any) => {
                 return `
                      ${s.name}:req.body["${s.name}"]`
@@ -113,21 +116,23 @@ class Service{
                 }
             })`)
         }()) : ''}
+        return data
         
     }
-    query(req,res){
-        ${name}.findAll({
-            where: {${updateOrm.map((s: any) => {
+    async query(req,res){
+        var where = {}
+        ${addOrm.map((s: any) => {
             return `
-                 ${s.name}:req.body["${s.name}"]`
-        })}
-            }
-        }).then((s) => {
-            data = {
-                status: 200,
-                data: s[0]
-            }
+            req.body["${s.name}"] ? where["${s.name}"] = req.body["${s.name}"] : ''`
+        }).join('')}
+        
+        var item = await ${name}.findAll({
+            where
         })
+        return  {
+            status: 200,
+            data: item
+        }
     }
 }
 module.exports = Service 

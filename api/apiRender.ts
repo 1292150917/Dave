@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-18 21:06:46
- * @LastEditTime: 2020-06-20 11:13:02
+ * @LastEditTime: 2020-06-20 17:14:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\Dave\api\apiRender.ts
@@ -33,11 +33,33 @@ router.post('/render', async function (req: req, res: res) {
     var data = {}
     fs.writeFileSync(cv('../DaveFile/database/documents.json'), JSON.stringify(json))
     var documents = require('../template/sdk/documents.ts')
+    var jsoncurd = fs.readFileSync(cv('../config/index.json'), "utf-8")
+    jsoncurd = JSON.parse(jsoncurd)
+    var created = await query({
+        sql: `SELECT
+            TABLE_NAME,
+            TABLE_COMMENT,
+            TABLE_ROWS,
+            CREATE_TIME,
+            UPDATE_TIME
+            FROM
+                information_schema.TABLES
+            WHERE
+            table_schema = '${jsoncurd.database}'`, res
+    })
     name.map((s: any) => {
-        fs.writeFileSync(cv(`../DaveFile/database/documents/${s}.js`), documents(json[s], s))
+        // 注释部分的代码
+        var name = created.filter((vname:any) => vname.TABLE_NAME === s)
+        var vname = ''
+        if(name[0]){
+            var [v1,v2] = name[0].TABLE_COMMENT.split(';')
+            if(v2){
+                vname = v1
+            }
+        }
+        fs.writeFileSync(cv(`../DaveFile/database/documents/${s}.js`), documents(json[s], s, vname))
     })
     cmd.get("apidoc -i DaveFile/database/documents -o apidoc/", function (err, data) {
-        console.log(data);
         zipper.sync.zip("./apidoc").compress().save("./apidoc.zip");
         data = {
             data: '新增成功！',

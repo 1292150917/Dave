@@ -1,66 +1,66 @@
 
         /**
-         * @api {post} /cesfew/add 系统信息表新增
+         * @api {post} /log/add 日志表新增
          * @apiDescription ""
-         * @apiName Addcesfew
-         * @apiGroup cesfew配置
+         * @apiName Addlog
+         * @apiGroup log配置
          * @apiParam {string} id 主键 新增误发
          
          * @apiSuccess {json} code
-         * @apiSampleRequest /cesfew/add
+         * @apiSampleRequest /log/add
          * @apiVersion 0.0.0
         */
        
 
              
 		/**
-		 * @api {post} /cesfew/query 系统信息表详情
+		 * @api {post} /log/query 日志表详情
 		 * @apiDescription ""
-		 * @apiName PostListcesfew
-		 * @apiGroup cesfew配置
+		 * @apiName PostListlog
+		 * @apiGroup log配置
          * @apiParam {string} id 主键 新增误发
          
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest /cesfew/query
+		 * @apiSampleRequest /log/query
 		 * @apiVersion 0.0.0
 		 */
 
         /**
-		 * @api {post} /cesfew/queryList 系统信息表列表
+		 * @api {post} /log/queryList 日志表列表
 		 * @apiDescription ""
-		 * @apiName GetListcesfew
-		 * @apiGroup cesfew配置
+		 * @apiName GetListlog
+		 * @apiGroup log配置
          * @apiParam {string} id 主键 新增误发
          
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest /cesfew/queryList
+		 * @apiSampleRequest /log/queryList
 		 * @apiVersion 0.0.0
 		 */
 
 
        /**
-        * @api {post} /cesfew/update 系统信息表修改
+        * @api {post} /log/update 日志表修改
         * @apiDescription ""
-        * @apiName Postcesfew
-        * @apiGroup cesfew配置
+        * @apiName Postlog
+        * @apiGroup log配置
         * @apiParam {string} id 主键 新增误发
         
        
         * @apiSuccess {json} code
-        * @apiSampleRequest /cesfew/update
+        * @apiSampleRequest /log/update
         * @apiVersion 0.0.0
        */
 
        
 		/**
-		 * @api {post} /cesfew/delete 系统信息表删除
+		 * @api {post} /log/delete 日志表删除
 		 * @apiDescription ""
-		 * @apiName deletecesfew
-		 * @apiGroup cesfew配置
+		 * @apiName deletelog
+		 * @apiGroup log配置
          * @apiParam {string} id 主键 新增误发
          
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest /cesfew/delete
+		 * @apiSampleRequest /log/delete
 		 * @apiVersion 0.0.0
 		 */
     

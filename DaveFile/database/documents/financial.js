@@ -1,9 +1,10 @@
 
         /**
-         * @api {post} /financial/add financial配置新增
+         * @api {post} /financial/add financial新增
          * @apiDescription ""
-         * @apiName Addbanner
+         * @apiName Addfinancial
          * @apiGroup financial配置
+         * @apiParam {string} id 主键 新增误发
          
                      * @apiParam {string} price 字段描述
                  
@@ -24,17 +25,18 @@
                      * @apiParam {string} updatedate 
                  
          * @apiSuccess {json} code
-         * @apiSampleRequest http://gtrhtr.51vip.biz/banner/add
+         * @apiSampleRequest /financial/add
          * @apiVersion 0.0.0
         */
        
 
              
 		/**
-		 * @api {get} /financial/query financial配置查询详情
+		 * @api {post} /financial/query financial详情
 		 * @apiDescription ""
-		 * @apiName Getbanner
+		 * @apiName PostListfinancial
 		 * @apiGroup financial配置
+         * @apiParam {string} id 主键 新增误发
           
                 * @apiParam {string} price 字段描述
                  
@@ -55,27 +57,29 @@
                 * @apiParam {string} updatedate 
                 
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest http://gtrhtr.51vip.biz/banner/query
+		 * @apiSampleRequest /financial/query
 		 * @apiVersion 0.0.0
 		 */
 
         /**
-		 * @api {get} /financial/queryList financial配置查询列表
+		 * @api {post} /financial/queryList financial列表
 		 * @apiDescription ""
-		 * @apiName Getbanner
+		 * @apiName GetListfinancial
 		 * @apiGroup financial配置
+         * @apiParam {string} id 主键 新增误发
          
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest http://gtrhtr.51vip.biz/banner/queryList
+		 * @apiSampleRequest /financial/queryList
 		 * @apiVersion 0.0.0
 		 */
 
 
        /**
-        * @api {get} /financial/update financial配置修改
+        * @api {post} /financial/update financial修改
         * @apiDescription ""
-        * @apiName Updatefinancial
+        * @apiName Postfinancial
         * @apiGroup financial配置
+        * @apiParam {string} id 主键 新增误发
          
                 * @apiParam {string} price 字段描述
                  
@@ -97,16 +101,17 @@
                 
        
         * @apiSuccess {json} code
-        * @apiSampleRequest http://gtrhtr.51vip.biz/financial/update
+        * @apiSampleRequest /financial/update
         * @apiVersion 0.0.0
        */
 
        
 		/**
-		 * @api {get} /financial/delete financial配置删除
+		 * @api {post} /financial/delete financial删除
 		 * @apiDescription ""
-		 * @apiName Deletebanner
+		 * @apiName deletefinancial
 		 * @apiGroup financial配置
+         * @apiParam {string} id 主键 新增误发
          
                  * @apiParam {string} price 字段描述
                  
@@ -127,7 +132,7 @@
                  * @apiParam {string} updatedate 
                  
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest http://gtrhtr.51vip.biz/banner/delete
+		 * @apiSampleRequest /financial/delete
 		 * @apiVersion 0.0.0
 		 */
     

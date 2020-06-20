@@ -1,20 +1,21 @@
 /*
  * @Author: your name
  * @Date: 2020-06-19 20:55:30
- * @LastEditTime: 2020-06-20 11:33:09
+ * @LastEditTime: 2020-06-20 18:06:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\Dave\template\sdk\documents.ts
  */
-var documentsrender = function (msg: any, name: any) {
+var documentsrender = function (msg: any, name: any, comment: string) {
     var apiParam = ''
 
     return `
         /**
-         * @api {post} /${name}/add ${name}配置新增
+         * @api {post} /${name}/add ${comment ? comment : name}新增
          * @apiDescription ""
          * @apiName Add${name}
          * @apiGroup ${name}配置
+         * @apiParam {string} id 主键 新增误发
          ${msg.map((s: any) => {
         if (s.add) {
             return (`
@@ -32,10 +33,11 @@ var documentsrender = function (msg: any, name: any) {
 
              
 		/**
-		 * @api {get} /${name}/query ${name}配置查询详情
+		 * @api {post} /${name}/query ${comment ? comment : name}详情
 		 * @apiDescription ""
-		 * @apiName Get${name}
+		 * @apiName PostList${name}
 		 * @apiGroup ${name}配置
+         * @apiParam {string} id 主键 新增误发
          ${msg.map((s: any) => {
         if (s.query) {
             return (` 
@@ -51,10 +53,11 @@ var documentsrender = function (msg: any, name: any) {
 		 */
 
         /**
-		 * @api {get} /${name}/queryList ${name}配置查询列表
+		 * @api {post} /${name}/queryList ${comment ? comment : name}列表
 		 * @apiDescription ""
-		 * @apiName Get${name}
+		 * @apiName GetList${name}
 		 * @apiGroup ${name}配置
+         * @apiParam {string} id 主键 新增误发
          ${msg.map((s: any) => {
         if (s.queryList) {
             return (` 
@@ -71,10 +74,11 @@ var documentsrender = function (msg: any, name: any) {
 
 
        /**
-        * @api {get} /${name}/update ${name}配置修改
+        * @api {post} /${name}/update ${comment ? comment : name}修改
         * @apiDescription ""
-        * @apiName Update${name}
+        * @apiName Post${name}
         * @apiGroup ${name}配置
+        * @apiParam {string} id 主键 新增误发
         ${msg.map((s: any) => {
         if (s.update) {
             return (` 
@@ -92,10 +96,11 @@ var documentsrender = function (msg: any, name: any) {
 
        
 		/**
-		 * @api {get} /${name}/delete ${name}配置删除
+		 * @api {post} /${name}/delete ${comment ? comment : name}删除
 		 * @apiDescription ""
-		 * @apiName Delete${name}
+		 * @apiName delete${name}
 		 * @apiGroup ${name}配置
+         * @apiParam {string} id 主键 新增误发
          ${msg.map((s: any) => {
         if (s.add) {
             return (`

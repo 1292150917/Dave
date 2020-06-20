@@ -1,17 +1,20 @@
 /*
  * @Author: your name
  * @Date: 2020-05-19 19:26:16
- * @LastEditTime: 2020-06-20 11:04:28
+ * @LastEditTime: 2020-06-20 17:39:47
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \node\app.js
  */
 var express = require('express');
 var fs = require('fs')
-var path = require('path')
+var path = require('path') 
+var bodyParser = require('body-parser')
 
 var app = express();
 app.use(express.static(path.join(__dirname, 'public')));
+var ue = bodyParser.urlencoded({extended:false})
+app.use(bodyParser());
 
 var v = fs.readdirSync(path.resolve('./controller'))
 v.map(s => {

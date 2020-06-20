@@ -1,61 +1,66 @@
 
         /**
-         * @api {post} /cfewr/add cfewr配置新增
+         * @api {post} /cfewr/add cfewr新增
          * @apiDescription ""
-         * @apiName Addbanner
+         * @apiName Addcfewr
          * @apiGroup cfewr配置
+         * @apiParam {string} id 主键 新增误发
          
          * @apiSuccess {json} code
-         * @apiSampleRequest http://gtrhtr.51vip.biz/banner/add
+         * @apiSampleRequest /cfewr/add
          * @apiVersion 0.0.0
         */
        
 
              
 		/**
-		 * @api {get} /cfewr/query cfewr配置查询详情
+		 * @api {post} /cfewr/query cfewr详情
 		 * @apiDescription ""
-		 * @apiName Getbanner
+		 * @apiName PostListcfewr
 		 * @apiGroup cfewr配置
+         * @apiParam {string} id 主键 新增误发
          
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest http://gtrhtr.51vip.biz/banner/query
+		 * @apiSampleRequest /cfewr/query
 		 * @apiVersion 0.0.0
 		 */
 
         /**
-		 * @api {get} /cfewr/queryList cfewr配置查询列表
+		 * @api {post} /cfewr/queryList cfewr列表
 		 * @apiDescription ""
-		 * @apiName Getbanner
+		 * @apiName GetListcfewr
 		 * @apiGroup cfewr配置
+         * @apiParam {string} id 主键 新增误发
          
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest http://gtrhtr.51vip.biz/banner/queryList
+		 * @apiSampleRequest /cfewr/queryList
 		 * @apiVersion 0.0.0
 		 */
 
 
        /**
-        * @api {get} /cfewr/update cfewr配置修改
+        * @api {post} /cfewr/update cfewr修改
         * @apiDescription ""
-        * @apiName Updatefinancial
+        * @apiName Postcfewr
         * @apiGroup cfewr配置
+        * @apiParam {string} id 主键 新增误发
         
        
         * @apiSuccess {json} code
-        * @apiSampleRequest http://gtrhtr.51vip.biz/financial/update
+        * @apiSampleRequest /cfewr/update
         * @apiVersion 0.0.0
        */
 
        
 		/**
-		 * @api {get} /cfewr/delete cfewr配置删除
+		 * @api {post} /cfewr/delete cfewr删除
 		 * @apiDescription ""
-		 * @apiName Deletebanner
+		 * @apiName deletecfewr
 		 * @apiGroup cfewr配置
+         * @apiParam {string} id 主键 新增误发
          
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest http://gtrhtr.51vip.biz/banner/delete
+		 * @apiSampleRequest /cfewr/delete
 		 * @apiVersion 0.0.0
 		 */
     

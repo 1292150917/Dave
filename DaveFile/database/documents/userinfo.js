@@ -1,66 +1,66 @@
 
         /**
-         * @api {post} /cesfew/add 系统信息表新增
+         * @api {post} /userinfo/add 用户信息表新增
          * @apiDescription ""
-         * @apiName Addcesfew
-         * @apiGroup cesfew配置
+         * @apiName Adduserinfo
+         * @apiGroup userinfo配置
          * @apiParam {string} id 主键 新增误发
          
          * @apiSuccess {json} code
-         * @apiSampleRequest /cesfew/add
+         * @apiSampleRequest /userinfo/add
          * @apiVersion 0.0.0
         */
        
 
              
 		/**
-		 * @api {post} /cesfew/query 系统信息表详情
+		 * @api {post} /userinfo/query 用户信息表详情
 		 * @apiDescription ""
-		 * @apiName PostListcesfew
-		 * @apiGroup cesfew配置
+		 * @apiName PostListuserinfo
+		 * @apiGroup userinfo配置
          * @apiParam {string} id 主键 新增误发
          
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest /cesfew/query
+		 * @apiSampleRequest /userinfo/query
 		 * @apiVersion 0.0.0
 		 */
 
         /**
-		 * @api {post} /cesfew/queryList 系统信息表列表
+		 * @api {post} /userinfo/queryList 用户信息表列表
 		 * @apiDescription ""
-		 * @apiName GetListcesfew
-		 * @apiGroup cesfew配置
+		 * @apiName GetListuserinfo
+		 * @apiGroup userinfo配置
          * @apiParam {string} id 主键 新增误发
          
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest /cesfew/queryList
+		 * @apiSampleRequest /userinfo/queryList
 		 * @apiVersion 0.0.0
 		 */
 
 
        /**
-        * @api {post} /cesfew/update 系统信息表修改
+        * @api {post} /userinfo/update 用户信息表修改
         * @apiDescription ""
-        * @apiName Postcesfew
-        * @apiGroup cesfew配置
+        * @apiName Postuserinfo
+        * @apiGroup userinfo配置
         * @apiParam {string} id 主键 新增误发
         
        
         * @apiSuccess {json} code
-        * @apiSampleRequest /cesfew/update
+        * @apiSampleRequest /userinfo/update
         * @apiVersion 0.0.0
        */
 
        
 		/**
-		 * @api {post} /cesfew/delete 系统信息表删除
+		 * @api {post} /userinfo/delete 用户信息表删除
 		 * @apiDescription ""
-		 * @apiName deletecesfew
-		 * @apiGroup cesfew配置
+		 * @apiName deleteuserinfo
+		 * @apiGroup userinfo配置
          * @apiParam {string} id 主键 新增误发
          
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest /cesfew/delete
+		 * @apiSampleRequest /userinfo/delete
 		 * @apiVersion 0.0.0
 		 */
     

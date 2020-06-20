@@ -1,9 +1,9 @@
 
         /**
-         * @api {post} /userinfo2/add 123新增
+         * @api {post} /pay/add 支付表新增
          * @apiDescription ""
-         * @apiName Adduserinfo2
-         * @apiGroup userinfo2配置
+         * @apiName Addpay
+         * @apiGroup pay配置
          * @apiParam {string} id 主键 新增误发
          
                      * @apiParam {string} name 
@@ -23,17 +23,17 @@
                      * @apiParam {string} updatedate 
                  
          * @apiSuccess {json} code
-         * @apiSampleRequest /userinfo2/add
+         * @apiSampleRequest /pay/add
          * @apiVersion 0.0.0
         */
        
 
              
 		/**
-		 * @api {post} /userinfo2/query 123详情
+		 * @api {post} /pay/query 支付表详情
 		 * @apiDescription ""
-		 * @apiName PostListuserinfo2
-		 * @apiGroup userinfo2配置
+		 * @apiName PostListpay
+		 * @apiGroup pay配置
          * @apiParam {string} id 主键 新增误发
           
                 * @apiParam {string} name 
@@ -53,28 +53,28 @@
                 * @apiParam {string} updatedate 
                 
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest /userinfo2/query
+		 * @apiSampleRequest /pay/query
 		 * @apiVersion 0.0.0
 		 */
 
         /**
-		 * @api {post} /userinfo2/queryList 123列表
+		 * @api {post} /pay/queryList 支付表列表
 		 * @apiDescription ""
-		 * @apiName GetListuserinfo2
-		 * @apiGroup userinfo2配置
+		 * @apiName GetListpay
+		 * @apiGroup pay配置
          * @apiParam {string} id 主键 新增误发
          
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest /userinfo2/queryList
+		 * @apiSampleRequest /pay/queryList
 		 * @apiVersion 0.0.0
 		 */
 
 
        /**
-        * @api {post} /userinfo2/update 123修改
+        * @api {post} /pay/update 支付表修改
         * @apiDescription ""
-        * @apiName Postuserinfo2
-        * @apiGroup userinfo2配置
+        * @apiName Postpay
+        * @apiGroup pay配置
         * @apiParam {string} id 主键 新增误发
          
                 * @apiParam {string} name 
@@ -95,16 +95,16 @@
                 
        
         * @apiSuccess {json} code
-        * @apiSampleRequest /userinfo2/update
+        * @apiSampleRequest /pay/update
         * @apiVersion 0.0.0
        */
 
        
 		/**
-		 * @api {post} /userinfo2/delete 123删除
+		 * @api {post} /pay/delete 支付表删除
 		 * @apiDescription ""
-		 * @apiName deleteuserinfo2
-		 * @apiGroup userinfo2配置
+		 * @apiName deletepay
+		 * @apiGroup pay配置
          * @apiParam {string} id 主键 新增误发
          
                  * @apiParam {string} name 
@@ -124,7 +124,7 @@
                  * @apiParam {string} updatedate 
                  
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest /userinfo2/delete
+		 * @apiSampleRequest /pay/delete
 		 * @apiVersion 0.0.0
 		 */
     
