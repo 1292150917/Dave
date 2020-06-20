@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-15 20:18:08
- * @LastEditTime: 2020-06-19 23:01:26
+ * @LastEditTime: 2020-06-20 11:31:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\api\generate.ts
@@ -24,11 +24,12 @@ function cv(v: any) {
     return path.resolve(__dirname, v)
 }
 unity = new unity()
-function fileDisplay(url, list, name) {
+function fileDisplay(url:any, list:any, name:any) {
     var fsreadd = fs.readdirSync(cv(url))
     for (let i in fsreadd) {
         var item = fsreadd[i]
         var filedir = url + '/' + item
+        console.log(filedir)
         if (!fs.statSync(filedir).isDirectory()) {
             // 读取文件内容
             var content = fs.readFileSync(filedir, 'utf-8');
@@ -37,7 +38,7 @@ function fileDisplay(url, list, name) {
                 name: name ? name + '/' + item : item
             })
         } else {
-            fileDisplay(filedir, list, item);//递归，如果是文件夹，就继续遍历该文件夹下面的文件
+             fileDisplay(filedir, list, name ? name + '/' + item : item);//递归，如果是文件夹，就继续遍历该文件夹下面的文件
         }
     }
     return list
@@ -53,11 +54,7 @@ async function createHtml(req: any, res: any) {
     var jsoncurd = fs.readFileSync(cv('../config/index.json'), "utf-8")
     jsoncurd = JSON.parse(jsoncurd)
     json = JSON.parse(json)
-<<<<<<< HEAD
     var { name, ORM,download }: ReqBody = req.body
-=======
-    var { name, ORM }: ReqBody = req.body
->>>>>>> 7879ea36c15bb0562cf870bbbb03090168091c8a
     var data: any = []
     var auto = new SequelizeAuto(jsoncurd.database, jsoncurd.user, jsoncurd.password, {
         host: jsoncurd.host,

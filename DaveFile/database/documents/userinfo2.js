@@ -55,7 +55,18 @@
 		 * @apiVersion 0.0.0
 		 */
 
+        /**
+		 * @api {get} /userinfo2/queryList userinfo2配置查询列表
+		 * @apiDescription ""
+		 * @apiName Getbanner
+		 * @apiGroup userinfo2配置
          
+		 * @apiSuccess {json} code
+		 * @apiSampleRequest http://gtrhtr.51vip.biz/banner/queryList
+		 * @apiVersion 0.0.0
+		 */
+
+
        /**
         * @api {get} /userinfo2/update userinfo2配置修改
         * @apiDescription ""

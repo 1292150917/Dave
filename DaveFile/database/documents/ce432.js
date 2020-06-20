@@ -23,7 +23,18 @@
 		 * @apiVersion 0.0.0
 		 */
 
+        /**
+		 * @api {get} /ce432/queryList ce432配置查询列表
+		 * @apiDescription ""
+		 * @apiName Getbanner
+		 * @apiGroup ce432配置
          
+		 * @apiSuccess {json} code
+		 * @apiSampleRequest http://gtrhtr.51vip.biz/banner/queryList
+		 * @apiVersion 0.0.0
+		 */
+
+
        /**
         * @api {get} /ce432/update ce432配置修改
         * @apiDescription ""

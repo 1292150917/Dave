@@ -23,7 +23,18 @@
 		 * @apiVersion 0.0.0
 		 */
 
+        /**
+		 * @api {get} /cfewr/queryList cfewr配置查询列表
+		 * @apiDescription ""
+		 * @apiName Getbanner
+		 * @apiGroup cfewr配置
          
+		 * @apiSuccess {json} code
+		 * @apiSampleRequest http://gtrhtr.51vip.biz/banner/queryList
+		 * @apiVersion 0.0.0
+		 */
+
+
        /**
         * @api {get} /cfewr/update cfewr配置修改
         * @apiDescription ""

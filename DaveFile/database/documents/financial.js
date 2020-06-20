@@ -59,7 +59,18 @@
 		 * @apiVersion 0.0.0
 		 */
 
+        /**
+		 * @api {get} /financial/queryList financial配置查询列表
+		 * @apiDescription ""
+		 * @apiName Getbanner
+		 * @apiGroup financial配置
          
+		 * @apiSuccess {json} code
+		 * @apiSampleRequest http://gtrhtr.51vip.biz/banner/queryList
+		 * @apiVersion 0.0.0
+		 */
+
+
        /**
         * @api {get} /financial/update financial配置修改
         * @apiDescription ""

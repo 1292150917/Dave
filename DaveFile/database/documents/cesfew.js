@@ -23,7 +23,18 @@
 		 * @apiVersion 0.0.0
 		 */
 
+        /**
+		 * @api {get} /cesfew/queryList cesfew配置查询列表
+		 * @apiDescription ""
+		 * @apiName Getbanner
+		 * @apiGroup cesfew配置
          
+		 * @apiSuccess {json} code
+		 * @apiSampleRequest http://gtrhtr.51vip.biz/banner/queryList
+		 * @apiVersion 0.0.0
+		 */
+
+
        /**
         * @api {get} /cesfew/update cesfew配置修改
         * @apiDescription ""

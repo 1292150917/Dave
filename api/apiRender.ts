@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-18 21:06:46
- * @LastEditTime: 2020-06-19 22:55:39
+ * @LastEditTime: 2020-06-20 11:13:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\Dave\api\apiRender.ts
@@ -38,7 +38,7 @@ router.post('/render', async function (req: req, res: res) {
     })
     cmd.get("apidoc -i DaveFile/database/documents -o apidoc/", function (err, data) {
         console.log(data);
-        zipper.sync.zip("./apidoc").compress().save("./target.zip");
+        zipper.sync.zip("./apidoc").compress().save("./apidoc.zip");
         data = {
             data: '新增成功！',
             status: 200,
@@ -49,7 +49,7 @@ router.post('/render', async function (req: req, res: res) {
 })
 
 router.get('/download', async function (req: req, res: res) {
-    res.download(cv(`../target.zip`))
+    res.download(cv(`../apidoc.zip`))
 })
 
 module.exports = router

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-19 20:55:30
- * @LastEditTime: 2020-06-19 23:03:25
+ * @LastEditTime: 2020-06-20 11:33:09
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\Dave\template\sdk\documents.ts
@@ -13,7 +13,7 @@ var documentsrender = function (msg: any, name: any) {
         /**
          * @api {post} /${name}/add ${name}配置新增
          * @apiDescription ""
-         * @apiName Addbanner
+         * @apiName Add${name}
          * @apiGroup ${name}配置
          ${msg.map((s: any) => {
         if (s.add) {
@@ -25,7 +25,7 @@ var documentsrender = function (msg: any, name: any) {
         }
     }).join('')}
          * @apiSuccess {json} code
-         * @apiSampleRequest http://gtrhtr.51vip.biz/banner/add
+         * @apiSampleRequest /${name}/add
          * @apiVersion 0.0.0
         */
        
@@ -34,7 +34,7 @@ var documentsrender = function (msg: any, name: any) {
 		/**
 		 * @api {get} /${name}/query ${name}配置查询详情
 		 * @apiDescription ""
-		 * @apiName Getbanner
+		 * @apiName Get${name}
 		 * @apiGroup ${name}配置
          ${msg.map((s: any) => {
         if (s.query) {
@@ -46,14 +46,14 @@ var documentsrender = function (msg: any, name: any) {
         }
     }).join('')}
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest http://gtrhtr.51vip.biz/banner/query
+		 * @apiSampleRequest /${name}/query
 		 * @apiVersion 0.0.0
 		 */
 
         /**
 		 * @api {get} /${name}/queryList ${name}配置查询列表
 		 * @apiDescription ""
-		 * @apiName Getbanner
+		 * @apiName Get${name}
 		 * @apiGroup ${name}配置
          ${msg.map((s: any) => {
         if (s.queryList) {
@@ -65,7 +65,7 @@ var documentsrender = function (msg: any, name: any) {
         }
     }).join('')}
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest http://gtrhtr.51vip.biz/banner/queryList
+		 * @apiSampleRequest /${name}/queryList
 		 * @apiVersion 0.0.0
 		 */
 
@@ -73,7 +73,7 @@ var documentsrender = function (msg: any, name: any) {
        /**
         * @api {get} /${name}/update ${name}配置修改
         * @apiDescription ""
-        * @apiName Updatefinancial
+        * @apiName Update${name}
         * @apiGroup ${name}配置
         ${msg.map((s: any) => {
         if (s.update) {
@@ -86,7 +86,7 @@ var documentsrender = function (msg: any, name: any) {
     }).join('')}
        
         * @apiSuccess {json} code
-        * @apiSampleRequest http://gtrhtr.51vip.biz/financial/update
+        * @apiSampleRequest /${name}/update
         * @apiVersion 0.0.0
        */
 
@@ -94,7 +94,7 @@ var documentsrender = function (msg: any, name: any) {
 		/**
 		 * @api {get} /${name}/delete ${name}配置删除
 		 * @apiDescription ""
-		 * @apiName Deletebanner
+		 * @apiName Delete${name}
 		 * @apiGroup ${name}配置
          ${msg.map((s: any) => {
         if (s.add) {
@@ -106,7 +106,7 @@ var documentsrender = function (msg: any, name: any) {
         }
     }).join('')}
 		 * @apiSuccess {json} code
-		 * @apiSampleRequest http://gtrhtr.51vip.biz/banner/delete
+		 * @apiSampleRequest /${name}/delete
 		 * @apiVersion 0.0.0
 		 */
     `
