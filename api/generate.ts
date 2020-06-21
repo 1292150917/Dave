@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-15 20:18:08
- * @LastEditTime: 2020-06-20 11:31:23
+ * @LastEditTime: 2020-06-21 12:17:02
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\api\generate.ts
@@ -29,7 +29,6 @@ function fileDisplay(url:any, list:any, name:any) {
     for (let i in fsreadd) {
         var item = fsreadd[i]
         var filedir = url + '/' + item
-        console.log(filedir)
         if (!fs.statSync(filedir).isDirectory()) {
             // 读取文件内容
             var content = fs.readFileSync(filedir, 'utf-8');
@@ -67,6 +66,23 @@ async function createHtml(req: any, res: any) {
         tables: name
     })
     var tables: any = []
+    // 获取表注释
+    var created = await query({
+        sql: `SELECT
+            TABLE_NAME,
+            TABLE_COMMENT,
+            TABLE_ROWS,
+            CREATE_TIME,
+            UPDATE_TIME
+            FROM
+                information_schema.TABLES
+            WHERE
+            table_schema = '${jsoncurd.database}'`, res
+    })
+    var vname:any = {}
+    created.map((v:any) =>{
+        vname[v.TABLE_NAME] = v
+    })
     await new Promise(s => {
         auto.run(async function (err) {
             if (err) throw err;
@@ -102,7 +118,7 @@ async function createHtml(req: any, res: any) {
             // curd
             data.push({
                 name: `controller/${name[index]}.js`,
-                msg: create({ addOrm, name: name[index] })
+                msg: create({ addOrm, name: name[index],vname:vname[name[index]] })
             })
             data.push({
                 name: `service/${name[index]}.js`,

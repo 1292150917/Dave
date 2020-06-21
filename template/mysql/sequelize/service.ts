@@ -33,33 +33,40 @@ class Service{
     }
     // 新增数据
     async add(req,res){
-        let { ${addOrm.map((s: any) => {
+        var data = {}
+        try {
+            let { ${addOrm.map((s: any) => {
         return ` ${s.name} `
     })} } = req.body
-        var data = {}
-        var msg = {
-            id:0
-        }
-        // 生成验证规则 name验证字段 test为正则 空验证匹配空数据
-        var testList = [
-            ${list.length ? JSON.stringify(list) : ''}
-        ]
-        var verification = this.verify(testList,req.body)
-        if(!verification){
-            ${addOrm.map((s: any) => {
-                return `
-                req.body["${s.name}"] ? msg["${s.name}"] = req.body["${s.name}"] : ''`
-            }).join('')}
-            await ${name}.create(msg).then((s) => {
-                data = {
-                    status: 200,
-                    data: s[0]
+                var msg = {
+                    id:0
                 }
-            })
-        }else{
+                // 生成验证规则 name验证字段 test为正则 空验证匹配空数据
+                var testList = [
+                    ${list.length ? JSON.stringify(list) : ''}
+                ]
+                var verification = this.verify(testList,req.body)
+                if(!verification){
+                    ${addOrm.map((s: any) => {
+        return `
+                        req.body["${s.name}"] ? msg["${s.name}"] = req.body["${s.name}"] : ''`
+    }).join('')}
+                    await ${name}.create(msg).then((s) => {
+                        data = {
+                            status: 200,
+                            data: s[0]
+                        }
+                    })
+                }else{
+                    data = {
+                        status: 201,
+                        data: verification
+                    }
+                }
+        } catch (error) {
             data = {
-                status: 201,
-                data: verification
+                status: 500,
+                data: '未知错误'
             }
         }
         return data
@@ -67,10 +74,17 @@ class Service{
     // 查询表所有数据
     async queryList(req,res){
         var data = {}
-        var item = await ${name}.findAll({ where: {} })
-        data = {
-            status: 200,
-            data: item
+        try {
+            var item = await ${name}.findAll({ where: {} })
+            data = {
+                status: 200,
+                data: item
+            }
+        } catch (error) {
+            data = {
+                status: 500,
+                data: '未知错误'
+            }
         }
         return {
             data
@@ -78,61 +92,88 @@ class Service{
     }
     async update(req,res){
         var update = {}
-        ${updateOrm.map((s: any) => {
-            return `
-            req.body["${s.name}"] ? update["${s.name}"] = req.body["${s.name}"] : ''`
-        }).join('')}
-        
-        var item = await ${name}.update(update,{
-            where: {
-                id:req.body.id
+        var data = {}
+        try {
+            ${updateOrm.map((s: any) => {
+                return `
+                    req.body["${s.name}"] ? update["${s.name}"] = req.body["${s.name}"] : ''`
+            }).join('')}
+                
+                var item = await ${name}.update(update,{
+                    where: {
+                        id:req.body.id
+                    }
+                })
+                data = {
+                    status: 200,
+                    data: '修改成功'
+                }
+        } catch (error) {
+            data = {
+                status: 500,
+                data: '未知错误'
             }
-        })
-        return {
-            status: 200,
-            data: '修改成功'
         }
+        return data
     }
     async delete(req,res){
         var data = {}
-        ${deleteOrm.length != 0 ? (function () {
-            return (`if(${deleteOrm.map((s: any, i: number) => { return `!req.body["${s.name}"] ${i !== deleteOrm.length - 1 ? '&& ' : ''}` }).join('')}){
-                data = {
-                    status: 201,
-                    data: '缺少主要参数'
+        try {
+        
+            ${deleteOrm.length != 0 ? (function () {
+                return (`if(${deleteOrm.map((s: any, i: number) => { return `!req.body["${s.name}"] ${i !== deleteOrm.length - 1 ? '&& ' : ''}` }).join('')}){
+                    data = {
+                        status: 201,
+                        data: '缺少主要参数'
+                    }
+                    return
                 }
-                return
+                await ${name}.destroy({
+                    where: {${deleteOrm.map((s: any) => {
+                    return `
+                         ${s.name}:req.body["${s.name}"]`
+                })}
+                    }
+                }).then((s) => {
+                    data = {
+                        status: 200,
+                        data: '删除成功'
+                    }
+                })`)
+            }()) : ''}
+        } catch (error) {
+            data = {
+                status: 500,
+                data: '未知错误'
             }
-            await ${name}.destroy({
-                where: {${deleteOrm.map((s: any) => {
-                return `
-                     ${s.name}:req.body["${s.name}"]`
-            })}
-                }
-            }).then((s) => {
-                data = {
-                    status: 200,
-                    data: '删除成功'
-                }
-            })`)
-        }()) : ''}
+        }
         return data
         
     }
     async query(req,res){
-        var where = {}
-        ${addOrm.map((s: any) => {
-            return `
-            req.body["${s.name}"] ? where["${s.name}"] = req.body["${s.name}"] : ''`
-        }).join('')}
+        var data = {}
+        try {
         
-        var item = await ${name}.findAll({
-            where
-        })
-        return  {
-            status: 200,
-            data: item
+            var where = {}
+            ${addOrm.map((s: any) => {
+                return `
+                req.body["${s.name}"] ? where["${s.name}"] = req.body["${s.name}"] : ''`
+            }).join('')}
+            
+            var item = await ${name}.findAll({
+                where
+            })
+            data = {
+                status: 200,
+                data: item
+            }
+        } catch (error) {
+            data = {
+                status: 500,
+                data: '未知错误'
+            }
         }
+        return  data
     }
 }
 module.exports = Service 

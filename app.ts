@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json({ limit: '50mb' }));
 
-//运行笔记本
+
 app.use('*', function (req: any, res: any, next: any) {
 	var json = fs.readFileSync('./config/index.json', "utf-8")
 	json = JSON.parse(json)
@@ -78,6 +78,8 @@ app.get('/database/create', async function (req, res) {
 		}
 	})
 })
+// 代码关联
+app.use('/advanced', require('./api/advanced'))
 // 文档生成
 app.use('/api/apiRender', require('./api/apiRender'))
 // 代码生成部分

@@ -23,7 +23,7 @@
     "express-session": "^1.16.2",
     "express-xml-bodyparser": "^0.3.0",
     "log4js": "^5.1.0",
-    "moment": "^2.25.3",
+    "moment": "^2.27.0",
     "mysql": "^2.17.1",
     "mysql2": "^1.7.0",
     "node-cmd": "^3.0.0",
