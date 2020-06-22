@@ -6,9 +6,17 @@ interface Render {
     updateOrm: any,
     deleteOrm: any
 }
-var render = function ({ addOrm, name, updateOrm, deleteOrm }: Render) {
+var render = function ({ addOrm, name, updateOrm, deleteOrm,data }: Render) {
     // 生成验证规则
     var list: any = []
+    var valueList =data.filter((s: any) => s.relevance)
+    var relevance = ''
+    var include = []
+    if(valueList[0]){
+        valueList.map(s =>{
+            include.push(...s.relevance)
+        })
+    }
     var toName = name.replace(name[0], (v: any) => { return v.toUpperCase() }) //首字母大写
     addOrm.map((s: any) => {
         if (s.null) {
@@ -20,7 +28,7 @@ var render = function ({ addOrm, name, updateOrm, deleteOrm }: Render) {
 var express = require('express');
 var Sequelize = require("Sequelize");
 var db = require('../config/db.js')
-var ${name} = require('../models/${name}.js')
+var model = require('../models/index.js')
 class Service{
     constructor(){
     }
@@ -51,7 +59,7 @@ class Service{
         return `
                         req.body["${s.name}"] ? msg["${s.name}"] = req.body["${s.name}"] : ''`
     }).join('')}
-                    await ${name}.create(msg).then((s) => {
+                    await model.${name}.create(msg).then((s) => {
                         data = {
                             status: 200,
                             data: s[0]
@@ -75,7 +83,7 @@ class Service{
     async queryList(req,res){
         var data = {}
         try {
-            var item = await ${name}.findAll({ where: {} })
+            var item = await model.${name}.findAll({ where: {} })
             data = {
                 status: 200,
                 data: item
@@ -99,7 +107,7 @@ class Service{
                     req.body["${s.name}"] ? update["${s.name}"] = req.body["${s.name}"] : ''`
             }).join('')}
                 
-                var item = await ${name}.update(update,{
+                var item = await model.${name}.update(update,{
                     where: {
                         id:req.body.id
                     }
@@ -128,7 +136,7 @@ class Service{
                     }
                     return
                 }
-                await ${name}.destroy({
+                await model.${name}.destroy({
                     where: {${deleteOrm.map((s: any) => {
                     return `
                          ${s.name}:req.body["${s.name}"]`
@@ -152,16 +160,32 @@ class Service{
     }
     async query(req,res){
         var data = {}
+        var where = {}
         try {
-        
-            var where = {}
+            req.body["id"] ? where["id"] = req.body["id"] : ''
             ${addOrm.map((s: any) => {
                 return `
                 req.body["${s.name}"] ? where["${s.name}"] = req.body["${s.name}"] : ''`
             }).join('')}
             
-            var item = await ${name}.findAll({
-                where
+            var item = await model.${name}.findAll({
+                where${include.length === 0 ? '' : ','}
+                ${(function(){
+                    if(include.length === 0){
+                        return ''
+                    }else{
+                        var v:any = []
+                        include.map(s =>{
+                            v.push(`{
+                             model:model.${s.elevanceName}
+                          }`)  
+                          })
+                          var v = v
+                          return `include:[
+                          ${v}
+                        ]`
+                    }
+                })()}
             })
             data = {
                 status: 200,

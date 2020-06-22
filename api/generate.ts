@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-15 20:18:08
- * @LastEditTime: 2020-06-21 12:17:02
+ * @LastEditTime: 2020-06-22 20:58:39
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\api\generate.ts
@@ -24,7 +24,7 @@ function cv(v: any) {
     return path.resolve(__dirname, v)
 }
 unity = new unity()
-function fileDisplay(url:any, list:any, name:any) {
+function fileDisplay(url: any, list: any, name: any) {
     var fsreadd = fs.readdirSync(cv(url))
     for (let i in fsreadd) {
         var item = fsreadd[i]
@@ -37,7 +37,7 @@ function fileDisplay(url:any, list:any, name:any) {
                 name: name ? name + '/' + item : item
             })
         } else {
-             fileDisplay(filedir, list, name ? name + '/' + item : item);//递归，如果是文件夹，就继续遍历该文件夹下面的文件
+            fileDisplay(filedir, list, name ? name + '/' + item : item);//递归，如果是文件夹，就继续遍历该文件夹下面的文件
         }
     }
     return list
@@ -46,14 +46,14 @@ async function createHtml(req: any, res: any) {
     interface ReqBody {
         name: any,
         ORM: string,
-        download:string
+        download: string
     }
     var json = fs.readFileSync(cv('../DaveFile/database/watch.json'), "utf-8")
     var create = require(cv('../template/mysql/sequelize/controller.ts'))
     var jsoncurd = fs.readFileSync(cv('../config/index.json'), "utf-8")
     jsoncurd = JSON.parse(jsoncurd)
     json = JSON.parse(json)
-    var { name, ORM,download }: ReqBody = req.body
+    var { name, ORM, download }: ReqBody = req.body
     var data: any = []
     var auto = new SequelizeAuto(jsoncurd.database, jsoncurd.user, jsoncurd.password, {
         host: jsoncurd.host,
@@ -79,8 +79,8 @@ async function createHtml(req: any, res: any) {
             WHERE
             table_schema = '${jsoncurd.database}'`, res
     })
-    var vname:any = {}
-    created.map((v:any) =>{
+    var vname: any = {}
+    created.map((v: any) => {
         vname[v.TABLE_NAME] = v
     })
     await new Promise(s => {
@@ -118,7 +118,7 @@ async function createHtml(req: any, res: any) {
             // curd
             data.push({
                 name: `controller/${name[index]}.js`,
-                msg: create({ addOrm, name: name[index],vname:vname[name[index]] })
+                msg: create({ addOrm, name: name[index], vname: vname[name[index]] })
             })
             data.push({
                 name: `service/${name[index]}.js`,
@@ -139,9 +139,14 @@ async function createHtml(req: any, res: any) {
         name: "config/db.js",
         msg: require(cv('../template/mysql/sequelize/db.ts'))({ db: jsoncurd })
     })
-    if(download){
+    if (download) {
         data.push(...fileDisplay(cv('../template/mysql/sequelize/app'), [], ''))
+        data.push({
+            name: `models/index.js`,
+            msg: require(cv('../template/mysql/sequelize/indexmodels.ts'))({ name: name, model: json })
+        })
     }
+
     res.send({
         status: 200,
         msg: data

@@ -13,6 +13,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json({ limit: '50mb' }));
 
+// 验证文件格式
+
+try {
+	JSON.parse(fs.readFileSync('./config/index.json', "utf-8"))
+} catch (error) {
+	fs.writeFileSync('./config/index.json', JSON.stringify({}))
+}
 
 app.use('*', function (req: any, res: any, next: any) {
 	var json = fs.readFileSync('./config/index.json', "utf-8")
@@ -25,13 +32,9 @@ app.use('*', function (req: any, res: any, next: any) {
 })
 // 数据库链接
 app.get('/database/create', async function (req, res) {
-	var json = fs.readFileSync('./config/index.json', "utf-8")
-	json = JSON.parse(json)
-	Object.keys(req.query).map(s => {
-		Object.keys(req.query).map(s => {
-			json[s] = req.query[s]
-		})
-		fs.writeFileSync('./config/index.json', JSON.stringify(json))
+	try {
+		var json = fs.readFileSync('./config/index.json', "utf-8")
+		json = JSON.parse(json)
 		// 创建数据库
 		if (req.query.create) {
 			db = mysql.createConnection({
@@ -40,19 +43,34 @@ app.get('/database/create', async function (req, res) {
 				user: req.query.user,
 				password: req.query.password,
 			})
-			let sql = `CREATE DATABASE ${req.query.database}`
-			db.query(sql, (err: any, result: any) => {
-				if (err) {
+			try {
+				let sql = `CREATE DATABASE ${req.query.database}`
+				db.query(sql, (err: any, result: any) => {
+					if (err) {
+						res.send({
+							status: 200,
+							msg: "链接错误！",
+							msgData: err
+						})
+						return
+					}
+
+					Object.keys(req.query).map(s => {
+						Object.keys(req.query).map(s => {
+							json[s] = req.query[s]
+						})
+						fs.writeFileSync('./config/index.json', JSON.stringify(json))
+					})
 					res.send({
 						status: 200,
-						msg: "链接错误！",
-						msgData: err
 					})
-				}
-			})
-			res.send({
-				status: 200,
-			})
+				})
+			} catch (error) {
+				res.send({
+					status: 500,
+					msg: '未知错误，请查看服务端报错'
+				})
+			}
 			return
 		} else {
 			var db = mysql.createConnection({
@@ -62,21 +80,40 @@ app.get('/database/create', async function (req, res) {
 				password: req.query.password,
 				database: req.query.database,
 			})
-			db.connect((err: any) => {
-				if (err) {
+			try {
+				db.connect((err: any) => {
+					if (err) {
+						res.send({
+							status: 200,
+							msg: "链接错误！",
+							msgData: err
+						})
+						return
+					}
+
+					Object.keys(req.query).map(s => {
+						Object.keys(req.query).map(s => {
+							json[s] = req.query[s]
+						})
+						fs.writeFileSync('./config/index.json', JSON.stringify(json))
+					})
 					res.send({
 						status: 200,
-						msg: "链接错误！",
-						msgData: err
 					})
-					return
-				}
-				res.send({
-					status: 200,
 				})
-			})
+			} catch (error) {
+				res.send({
+					status: 500,
+					msg: '未知错误，请查看服务端报错'
+				})
+			}
 		}
-	})
+	} catch (error) {
+		res.send({
+			status: 500,
+			msg: '未知错误，请查看服务端报错'
+		})
+	}
 })
 // 代码关联
 app.use('/advanced', require('./api/advanced'))

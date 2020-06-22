@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-21 13:42:27
- * @LastEditTime: 2020-06-09 19:21:51
+ * @LastEditTime: 2020-06-22 18:07:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\tablesListPage.ts
@@ -26,7 +26,6 @@ class tablesListPage extends unity {
         var { res, req } = this
 
         var { surface, Field, Type } = req.query
-        console.log(`ALTER table ${surface} DROP COLUMN ${Field}`)
         var tables = await query({ sql: `ALTER table ${surface} DROP COLUMN ${Field}`, res })
         var key = {}
         res.send({
