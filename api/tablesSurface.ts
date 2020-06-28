@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-21 13:42:27
- * @LastEditTime: 2020-06-22 18:10:06
+ * @LastEditTime: 2020-06-28 22:16:01
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\tablesSurface.ts
@@ -44,9 +44,9 @@ class tablesSurface extends unity {
         var jsonRender:any = {}
         for(var index in tables){
             var name = tables[index][`Tables_in_${database}`]
-            if (!json[name]) {
+            if (!json[name] || req.query.update) {
                  await query({ sql: `show full columns from ${name}` }).then(item => {
-                    item.filter(s => {
+                    item.filter((s:any) => {
                         if (s.Extra === "auto_increment") {
                             return;
                         }
