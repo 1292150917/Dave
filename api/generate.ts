@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-15 20:18:08
- * @LastEditTime: 2020-06-22 20:58:39
+ * @LastEditTime: 2020-06-30 22:55:50
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\api\generate.ts
@@ -170,13 +170,18 @@ router.post('/query', async function (req: any, res: any) {
 router.post('/json', async function (req: any, res: any) {
     interface ReqBody {
         name: string,
-        datalist: any
+        datalist: any,
+        tabledescribes: any
     }
+    var tableinterface = fs.readFileSync(cv('../DaveFile/database/tableinterface.json'), "utf-8")
     var json = fs.readFileSync(cv('../DaveFile/database/watch.json'), "utf-8")
     json = JSON.parse(json)
-    var { name, datalist }: ReqBody = req.body
+    tableinterface = JSON.parse(tableinterface)
+    var { name, datalist, tabledescribes }: ReqBody = req.body
     json[name] = req.body.datalist
+    tableinterface[name] ? tableinterface[name].name = tabledescribes : tableinterface[name] = { name: tabledescribes }
     fs.writeFileSync(cv('../DaveFile/database/watch.json'), JSON.stringify(json))
+    fs.writeFileSync(cv('../DaveFile/database/tableinterface.json'), JSON.stringify(tableinterface))
     res.send({
         status: 200,
         data: '保存成功'

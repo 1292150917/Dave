@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-21 13:42:27
- * @LastEditTime: 2020-06-28 22:16:01
+ * @LastEditTime: 2020-06-30 23:09:19
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\tablesSurface.ts
@@ -39,6 +39,8 @@ class tablesSurface extends unity {
         })
         var list:any = []
         var json = fs.readFileSync(cv('../DaveFile/database/watch.json'), "utf-8")
+        var tableinterface = fs.readFileSync(cv('../DaveFile/database/tableinterface.json'), "utf-8")
+        tableinterface = JSON.parse(tableinterface)
         json = JSON.parse(json)
         var { database } = this
         var jsonRender:any = {}
@@ -70,6 +72,7 @@ class tablesSurface extends unity {
         }
         fs.writeFileSync(cv('../DaveFile/database/watch.json'), JSON.stringify(jsonRender))
         list.forEach(s =>{
+            s.tableinterface = tableinterface[s.name]
             s.msg = created.filter(v =>v.TABLE_NAME === s.name)[0]
         })
         res.send({

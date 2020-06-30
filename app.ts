@@ -133,6 +133,30 @@ app.get('/tables/listPage', require('./api/tablesListPage'))
 app.get('/tables/update', require('./api/tablesUpdate'))
 // 新增表
 app.get('/tables/add', require('./api/tablesAdd'))
+// 新增表
+app.get('/JApplet/code', function (req, res) {
+	var codeHtml = require("./template/mysql/sequelize/applet/code")
+	res.send({
+		status: 200,
+		data: [
+			{
+				name: "service.js",
+				msg: codeHtml(req)
+			},
+			{
+				name: "controller.js",
+				msg: `
+				let express = require('express');
+				let router = express.Router();
+				router.post('/code', async function (req, res, next) {
+					let data = await serviceC1232123.add(req,res)
+					res.send(data)
+				});`
+			},
+			
+		]
+	})
+})
 // 删除
 app.get('/tables/delete', require('./api/tablesdelete'))
 // 新增表字段
