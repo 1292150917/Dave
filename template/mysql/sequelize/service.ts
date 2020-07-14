@@ -11,9 +11,9 @@ var render = function ({ addOrm, name, updateOrm, deleteOrm,data }: Render) {
     var list: any = []
     var valueList =data.filter((s: any) => s.relevance)
     var relevance = ''
-    var include = []
+    var include:any = []
     if(valueList[0]){
-        valueList.map(s =>{
+        valueList.map((s:any) =>{
             include.push(...s.relevance)
         })
     }

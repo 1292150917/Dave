@@ -6,6 +6,7 @@ const app: express.Application = express();
 var log4js = require('log4js');
 var path = require('path')
 var logger = log4js.getLogger();
+var a = require("./config/index.json")
 var fs = require('fs')
 logger.level = 'info'; // default level is OFF - which means no logs at all.
 logger.info('Log from default logger');

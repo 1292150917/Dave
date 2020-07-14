@@ -4,7 +4,7 @@
  * @LastEditTime: 2020-06-09 19:21:11
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\tablesListPage.ts
+ * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\alterUpdate.ts
  */
 /*
  * @Descripttion: 
@@ -17,7 +17,7 @@
 "use strict"
 var unity = require('../config/part_unity')
 var query = require('../config/mysql');
-class tablesListPage extends unity {
+class alterUpdate extends unity {
     constructor(req?: any, res?: any) {
         super(req, res);
         this.go()
@@ -71,4 +71,4 @@ class tablesListPage extends unity {
         }
     }
 }
-module.exports = (req: any, res: any) => new tablesListPage(req, res)
+module.exports = (req: any, res: any) => new alterUpdate(req, res)

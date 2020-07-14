@@ -1,10 +1,10 @@
 /*
  * @Author: your name
  * @Date: 2020-03-21 13:42:27
- * @LastEditTime: 2020-06-11 21:53:41
+ * @LastEditTime: 2020-07-05 20:33:17
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
- * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\tablesListPage.ts
+ * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\tables.ts
  */
 /*
  * @Descripttion: 
@@ -18,7 +18,7 @@
 var unity = require('../config/part_unity')
 var query = require('../config/mysql');
 var config = require('../config/index')
-class tablesListPage extends unity {
+class tables extends unity {
     constructor(req?: any, res?: any) {
         super(req, res);
         this.go()
@@ -37,4 +37,4 @@ class tablesListPage extends unity {
         })
     }
 }
-module.exports = (req: any, res: any) => new tablesListPage(req, res)
+module.exports = (req: any, res: any) => new tables(req, res)

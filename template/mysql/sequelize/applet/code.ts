@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-17 18:29:15
- * @LastEditTime: 2020-06-30 20:48:39
+ * @LastEditTime: 2020-07-05 20:35:36
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\Dave\template\mysql\sequelize\models.ts
