@@ -16,7 +16,11 @@ const sequelize = new Sequelize('${db.database}', '${db.user}', '${db.password}'
   host: '${db.host}',
   port:${db.port},
   dialect: 'mysql',
-  timezone: '+08:00'
+  timezone: '+08:00',
+  dialectOptions:{
+    dateStrings:true,
+    typeCast:true
+  },
   define: {
     timestamps: false
   }

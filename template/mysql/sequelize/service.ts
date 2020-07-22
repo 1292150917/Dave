@@ -25,13 +25,18 @@ var render = function ({ addOrm, name, updateOrm, deleteOrm,data }: Render) {
     })
     // data
     var template = `
-var express = require('express');
-var Sequelize = require("Sequelize");
-var db = require('../config/db.js')
 var model = require('../models/index.js')
 class Service{
     constructor(){
     }
+	 emptyData(msg){
+		Object.keys(msg).map(s => {
+			if (msg[s] === '' || msg[s] === undefined) {
+				delete msg[s]
+			}
+		})
+		return msg
+	}
     verify (test,val){
         for(var item in test){
             if(!val[test[item].name]){
@@ -43,9 +48,6 @@ class Service{
     async add(req,res){
         var data = {}
         try {
-            let { ${addOrm.map((s: any) => {
-        return ` ${s.name} `
-    })} } = req.body
                 var msg = {
                     id:0
                 }
@@ -55,10 +57,11 @@ class Service{
                 ]
                 var verification = this.verify(testList,req.body)
                 if(!verification){
-                    ${addOrm.map((s: any) => {
-        return `
-                        req.body["${s.name}"] ? msg["${s.name}"] = req.body["${s.name}"] : ''`
-    }).join('')}
+                    msg = { ${addOrm.map((s: any) => {
+                        return ` ${s.name}:req.body["${s.name}"] `
+                    })} }
+                    
+                    msg = this.emptyData(msg)
                     await model.${name}.create(msg).then((s) => {
                         data = {
                             status: 200,
@@ -72,6 +75,7 @@ class Service{
                     }
                 }
         } catch (error) {
+			console.log(error)
             data = {
                 status: 500,
                 data: '未知错误'
@@ -89,6 +93,7 @@ class Service{
                 data: item
             }
         } catch (error) {
+			console.log(error)
             data = {
                 status: 500,
                 data: '未知错误'
@@ -102,10 +107,11 @@ class Service{
         var update = {}
         var data = {}
         try {
-            ${updateOrm.map((s: any) => {
-                return `
-                    req.body["${s.name}"] ? update["${s.name}"] = req.body["${s.name}"] : ''`
-            }).join('')}
+           update = { ${addOrm.map((s: any) => {
+               return ` ${s.name}:req.body["${s.name}"] `
+           })} }
+           
+           update = this.emptyData(update)
                 
                 var item = await model.${name}.update(update,{
                     where: {
@@ -117,6 +123,7 @@ class Service{
                     data: '修改成功'
                 }
         } catch (error) {
+			console.log(error)
             data = {
                 status: 500,
                 data: '未知错误'
@@ -150,6 +157,7 @@ class Service{
                 })`)
             }()) : ''}
         } catch (error) {
+			console.log(error)
             data = {
                 status: 500,
                 data: '未知错误'
@@ -163,11 +171,11 @@ class Service{
         var where = {}
         try {
             req.body["id"] ? where["id"] = req.body["id"] : ''
-            ${addOrm.map((s: any) => {
-                return `
-                req.body["${s.name}"] ? where["${s.name}"] = req.body["${s.name}"] : ''`
-            }).join('')}
-            
+            where = { ${addOrm.map((s: any) => {
+                return ` ${s.name}:req.body["${s.name}"] `
+            })} }
+            // 删除无用的数据
+            where = this.emptyData(where)
             var item = await model.${name}.findAll({
                 where${include.length === 0 ? '' : ','}
                 ${(function(){
@@ -192,6 +200,7 @@ class Service{
                 data: item
             }
         } catch (error) {
+			console.log(error)
             data = {
                 status: 500,
                 data: '未知错误'

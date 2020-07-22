@@ -22,7 +22,7 @@ var render = function ({ server, name, model }: Render) {
         var valueList = model[v].filter((s: any) => s.relevance)
         if (valueList[0]) {
             valueList[0].relevance.map((value: any) => {
-                belongsTo += `${v}.belongsTo(${value.elevanceName}, { foreignKey: '${value.berelevancePrice}', targetKey: '${value.elevancePrice}' });`
+                belongsTo += `${v}.hasMany(${value.elevanceName}, { foreignKey: '${value.berelevancePrice}', targetKey: '${value.elevancePrice}' });`
             })
         }
     })

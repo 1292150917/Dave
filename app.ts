@@ -134,6 +134,8 @@ app.get('/tables/listPage', require('./api/tablesListPage'))
 app.get('/tables/update', require('./api/tablesUpdate'))
 // 新增表
 app.get('/tables/add', require('./api/tablesAdd'))
+// 接口通用设置
+app.get('/api/generalSettings', require('./api/generalSettings'))
 // 新增表
 app.get('/JApplet/code', function (req, res) {
 	var codeHtml = require("./template/mysql/sequelize/applet/code")

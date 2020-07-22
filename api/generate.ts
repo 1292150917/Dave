@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-06-15 20:18:08
- * @LastEditTime: 2020-06-30 22:55:50
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-07-22 08:21:56
+ * @LastEditors: zhang zi fang
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\api\generate.ts
  */
@@ -60,12 +60,20 @@ async function createHtml(req: any, res: any) {
         dialect: jsoncurd.type,
         directory: false,
         port: jsoncurd.port,
+		camelCaseFileName:true,
         additional: {
             timestamps: false
         },
         tables: name
-    })
+    })	
     var tables: any = []
+    await new Promise(s => {
+        auto.run(async function (err) {
+            if (err) throw err;
+            tables = auto.tables
+            s(true)
+        });
+    })
     // 获取表注释
     var created = await query({
         sql: `SELECT
@@ -82,13 +90,6 @@ async function createHtml(req: any, res: any) {
     var vname: any = {}
     created.map((v: any) => {
         vname[v.TABLE_NAME] = v
-    })
-    await new Promise(s => {
-        auto.run(async function (err) {
-            if (err) throw err;
-            tables = auto.tables
-            s(true)
-        });
     })
     for (var index in name) {
         var addOrm: any = [] //可新增的字段
@@ -139,12 +140,13 @@ async function createHtml(req: any, res: any) {
         name: "config/db.js",
         msg: require(cv('../template/mysql/sequelize/db.ts'))({ db: jsoncurd })
     })
+    data.push({
+        name: `models/index.js`,
+        msg: require(cv('../template/mysql/sequelize/indexmodels.ts'))({ name: name, model: json })
+    })
     if (download) {
         data.push(...fileDisplay(cv('../template/mysql/sequelize/app'), [], ''))
-        data.push({
-            name: `models/index.js`,
-            msg: require(cv('../template/mysql/sequelize/indexmodels.ts'))({ name: name, model: json })
-        })
+        
     }
 
     res.send({
