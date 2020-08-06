@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-19 20:55:30
- * @LastEditTime: 2020-06-30 23:04:42
+ * @LastEditTime: 2020-08-06 21:40:00
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\Dave\template\sdk\documents.ts
@@ -37,7 +37,8 @@ var documentsrender = function (msg: any, name: any, comment: string) {
 		 * @apiDescription ""
 		 * @apiName PostList${name}
 		 * @apiGroup ${comment ? comment : name}
-         * @apiParam {string} id 主键 新增误发
+         * @apiParam {string} page 分页，如果不需要可不发
+         * @apiParam {string} pageSize 分页数量
          ${msg.map((s: any) => {
         if (s.query) {
             return (` 
@@ -51,13 +52,15 @@ var documentsrender = function (msg: any, name: any, comment: string) {
 		 * @apiSampleRequest /${name}/query
 		 * @apiVersion 0.0.0
 		 */
+        
 
         /**
 		 * @api {post} /${name}/queryList ${comment ? comment : name}列表
 		 * @apiDescription ""
 		 * @apiName GetList${name}
 		 * @apiGroup ${comment ? comment : name}
-         * @apiParam {string} id 主键 新增误发
+         * @apiParam {string} page 分页，如果不需要可不发
+         * @apiParam {string} pageSize 分页数量
          ${msg.map((s: any) => {
         if (s.queryList) {
             return (` 
@@ -78,7 +81,6 @@ var documentsrender = function (msg: any, name: any, comment: string) {
         * @apiDescription ""
         * @apiName Post${name}
         * @apiGroup ${comment ? comment : name}
-        * @apiParam {string} id 主键 新增误发
         ${msg.map((s: any) => {
         if (s.update) {
             return (` 

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-17 18:29:15
- * @LastEditTime: 2020-07-22 22:25:08
+ * @LastEditTime: 2020-08-06 21:52:20
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\Dave\template\mysql\sequelize\models.ts
@@ -25,7 +25,7 @@ var sequelize = require("../config/db.js")
 
 module.exports = sequelize.define('${name}',${JSON.stringify(model)},{
     freezeTableName: true,
-    timestamps: true,
+    timestamps: ${relevance.creationTime && relevance.updateTime},
     ${relevance.creationTime ? `createdAt: "${relevance.creationTime}",` : ''}
     ${relevance.updateTime ? `updatedAt: "${relevance.updateTime}",` : ''}
 });`

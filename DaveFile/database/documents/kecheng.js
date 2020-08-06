@@ -1,9 +1,9 @@
 
         /**
-         * @api {post} /kecheng/add 个人中心新增
+         * @api {post} /kecheng/add 个人中心1新增
          * @apiDescription ""
          * @apiName Addkecheng
-         * @apiGroup 个人中心
+         * @apiGroup 个人中心1
          * @apiParam {string} id 主键 新增误发
          
                      * @apiParam {string} userid 
@@ -20,11 +20,12 @@
 
              
 		/**
-		 * @api {post} /kecheng/query 个人中心详情
+		 * @api {post} /kecheng/query 个人中心1详情
 		 * @apiDescription ""
 		 * @apiName PostListkecheng
-		 * @apiGroup 个人中心
-         * @apiParam {string} id 主键 新增误发
+		 * @apiGroup 个人中心1
+         * @apiParam {string} page 分页，如果不需要可不发
+         * @apiParam {string} pageSize 分页数量
           
                 * @apiParam {string} userid 
                  
@@ -36,13 +37,15 @@
 		 * @apiSampleRequest /kecheng/query
 		 * @apiVersion 0.0.0
 		 */
+        
 
         /**
-		 * @api {post} /kecheng/queryList 个人中心列表
+		 * @api {post} /kecheng/queryList 个人中心1列表
 		 * @apiDescription ""
 		 * @apiName GetListkecheng
-		 * @apiGroup 个人中心
-         * @apiParam {string} id 主键 新增误发
+		 * @apiGroup 个人中心1
+         * @apiParam {string} page 分页，如果不需要可不发
+         * @apiParam {string} pageSize 分页数量
          
 		 * @apiSuccess {json} code
 		 * @apiSampleRequest /kecheng/queryList
@@ -51,11 +54,10 @@
 
 
        /**
-        * @api {post} /kecheng/update 个人中心修改
+        * @api {post} /kecheng/update 个人中心1修改
         * @apiDescription ""
         * @apiName Postkecheng
-        * @apiGroup 个人中心
-        * @apiParam {string} id 主键 新增误发
+        * @apiGroup 个人中心1
          
                 * @apiParam {string} userid 
                  
@@ -71,10 +73,10 @@
 
        
 		/**
-		 * @api {post} /kecheng/delete 个人中心删除
+		 * @api {post} /kecheng/delete 个人中心1删除
 		 * @apiDescription ""
 		 * @apiName deletekecheng
-		 * @apiGroup 个人中心
+		 * @apiGroup 个人中心1
          * @apiParam {string} id 主键 新增误发
          
                  * @apiParam {string} userid 

@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-03-21 13:42:27
- * @LastEditTime: 2020-07-22 22:17:04
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-08-06 16:46:27
+ * @LastEditors: zhang zi fang
  * @Description: In User Settings Edit
  * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\alterUpdate.ts
  */
@@ -31,6 +31,14 @@ class alterUpdate extends unity {
     async go() {
         var { res, req } = this
         try {
+            if(req.query.type === 'query'){
+                var relevance = require('../DaveFile/database/relevance.json')
+                res.send({
+                    status: 200,
+                    data:relevance
+                })
+                return
+            }
             var relevance = require('../DaveFile/database/relevance.json')
             Object.keys(req.query).map((s:any) =>{
                 relevance[s] = req.query[s]

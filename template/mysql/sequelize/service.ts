@@ -9,6 +9,7 @@ interface Render {
 var render = function ({ addOrm, name, updateOrm, deleteOrm,data }: Render) {
     // 生成验证规则
     var list: any = []
+    var relevanceJson = require("../../../DaveFile/database/relevance.json")
     var valueList =data.filter((s: any) => s.relevance)
     var relevance = ''
     var include:any = []
@@ -87,13 +88,19 @@ class Service{
     async queryList(req,res){
         var data = {}
         try {
-            var item = await model.${name}.findAll({ where: {} })
+            var {pageSize,page} = req.body
+            var item = ''
+            if(pageSize && page){
+                item = await model.${name}.findAndCountAll({ where: {},limit:Number(pageSize), offset:(page - 1) * pageSize })
+            }else{
+                item = await model.${name}.findAll({ where: {} })
+            }
             data = {
                 status: 200,
                 data: item
             }
+            
         } catch (error) {
-			console.log(error)
             data = {
                 status: 500,
                 data: '未知错误'
@@ -133,29 +140,22 @@ class Service{
     }
     async delete(req,res){
         var data = {}
+        var deleteJson = {}
         try {
-        
-            ${deleteOrm.length != 0 ? (function () {
-                return (`if(${deleteOrm.map((s: any, i: number) => { return `!req.body["${s.name}"] ${i !== deleteOrm.length - 1 ? '&& ' : ''}` }).join('')}){
-                    data = {
-                        status: 201,
-                        data: '缺少主要参数'
-                    }
-                    return
+            deleteJson = { ${deleteOrm.map((s: any) => {
+                return ` ${s.name}:req.body["${s.name}"] `
+            })} }
+
+            await model.${name}.update({
+                ${relevanceJson.fakef}:"${relevanceJson.deleteValue}"
+            },{
+                where:deleteJson
+            }).then((s) => {
+                data = {
+                    status: 200,
+                    data: '删除成功'
                 }
-                await model.${name}.destroy({
-                    where: {${deleteOrm.map((s: any) => {
-                    return `
-                         ${s.name}:req.body["${s.name}"]`
-                })}
-                    }
-                }).then((s) => {
-                    data = {
-                        status: 200,
-                        data: '删除成功'
-                    }
-                })`)
-            }()) : ''}
+            })
         } catch (error) {
 			console.log(error)
             data = {
@@ -164,37 +164,61 @@ class Service{
             }
         }
         return data
-        
     }
     async query(req,res){
         var data = {}
         var where = {}
         try {
-            req.body["id"] ? where["id"] = req.body["id"] : ''
             where = { ${addOrm.map((s: any) => {
                 return ` ${s.name}:req.body["${s.name}"] `
             })} }
             // 删除无用的数据
             where = this.emptyData(where)
-            var item = await model.${name}.findAll({
-                where${include.length === 0 ? '' : ','}
-                ${(function(){
-                    if(include.length === 0){
-                        return ''
-                    }else{
-                        var v:any = []
-                        include.map(s =>{
-                            v.push(`{
-                             model:model.${s.elevanceName}
-                          }`)  
-                          })
-                          var v = v
-                          return `include:[
-                          ${v}
-                        ]`
-                    }
-                })()}
-            })
+            var item;
+            if(req.body.page && req.body.pageSize){
+                item = await model.${name}.findAndCountAll({
+                    limit:Number(req.body.pageSize),
+                    offset:(req.body.page - 1) * req.body.pageSize,
+                    where${include.length === 0 ? '' : ','}
+                    ${(function(){
+                        if(include.length === 0){
+                            return ''
+                        }else{
+                            var v:any = []
+                            include.map(s =>{
+                                v.push(`{
+                                 model:model.${s.elevanceName}
+                              }`)  
+                              })
+                              var v = v
+                              return `include:[
+                              ${v}
+                            ]`
+                        }
+                    })()}
+                })
+            }else{
+                item = await model.${name}.findAll({
+                    where${include.length === 0 ? '' : ','}
+                    ${(function(){
+                        if(include.length === 0){
+                            return ''
+                        }else{
+                            var v:any = []
+                            include.map(s =>{
+                                v.push(`{
+                                 model:model.${s.elevanceName}
+                              }`)  
+                              })
+                              var v = v
+                              return `include:[
+                              ${v}
+                            ]`
+                        }
+                    })()}
+                })
+            }
+             
             data = {
                 status: 200,
                 data: item

@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-06-20 16:53:14
- * @LastEditTime: 2020-06-21 12:16:32
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-08-06 16:30:52
+ * @LastEditors: zhang zi fang
  * @Description: In User Settings Edit
  * @FilePath: \nodee:\nodeT\Dave\template\mysql\sequelize\controller.ts
  */
