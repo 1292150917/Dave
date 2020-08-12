@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-15 20:18:08
- * @LastEditTime: 2020-07-22 08:21:56
+ * @LastEditTime: 2020-08-10 13:32:01
  * @LastEditors: zhang zi fang
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\api\generate.ts
@@ -60,12 +60,12 @@ async function createHtml(req: any, res: any) {
         dialect: jsoncurd.type,
         directory: false,
         port: jsoncurd.port,
-		camelCaseFileName:true,
+        camelCaseFileName: true,
         additional: {
             timestamps: false
         },
         tables: name
-    })	
+    })
     var tables: any = []
     await new Promise(s => {
         auto.run(async function (err) {
@@ -146,7 +146,7 @@ async function createHtml(req: any, res: any) {
     })
     if (download) {
         data.push(...fileDisplay(cv('../template/mysql/sequelize/app'), [], ''))
-        
+
     }
 
     res.send({
@@ -182,6 +182,15 @@ router.post('/json', async function (req: any, res: any) {
     var { name, datalist, tabledescribes }: ReqBody = req.body
     json[name] = req.body.datalist
     tableinterface[name] ? tableinterface[name].name = tabledescribes : tableinterface[name] = { name: tabledescribes }
+    tableinterface[name].relevance = []
+    datalist.map(s => {
+        if (s.relevance) {
+            tableinterface[name].relevance.push({
+                name: s.Field,
+                relevance: s.relevance
+            })
+        }
+    })
     fs.writeFileSync(cv('../DaveFile/database/watch.json'), JSON.stringify(json))
     fs.writeFileSync(cv('../DaveFile/database/tableinterface.json'), JSON.stringify(tableinterface))
     res.send({

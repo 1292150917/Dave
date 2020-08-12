@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-21 13:42:27
- * @LastEditTime: 2020-06-30 23:09:19
+ * @LastEditTime: 2020-08-10 21:35:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\tablesSurface.ts
@@ -37,18 +37,18 @@ class tablesSurface extends unity {
                 WHERE
                 table_schema = '${jsoncurd.database}'`, res
         })
-        var list:any = []
+        var list: any = []
         var json = fs.readFileSync(cv('../DaveFile/database/watch.json'), "utf-8")
         var tableinterface = fs.readFileSync(cv('../DaveFile/database/tableinterface.json'), "utf-8")
         tableinterface = JSON.parse(tableinterface)
         json = JSON.parse(json)
         var { database } = this
-        var jsonRender:any = {}
-        for(var index in tables){
+        var jsonRender: any = {}
+        for (var index in tables) {
             var name = tables[index][`Tables_in_${database}`]
             if (!json[name] || req.query.update) {
-                 await query({ sql: `show full columns from ${name}` }).then(item => {
-                    item.filter((s:any) => {
+                await query({ sql: `show full columns from ${name}` }).then(item => {
+                    item.filter((s: any) => {
                         if (s.Extra === "auto_increment") {
                             return;
                         }
@@ -62,7 +62,7 @@ class tablesSurface extends unity {
                     });
                     jsonRender[name] = item
                 })
-            }else{
+            } else {
                 jsonRender[name] = json[name]
             }
             list.push({
@@ -71,9 +71,9 @@ class tablesSurface extends unity {
             })
         }
         fs.writeFileSync(cv('../DaveFile/database/watch.json'), JSON.stringify(jsonRender))
-        list.forEach(s =>{
+        list.forEach(s => {
             s.tableinterface = tableinterface[s.name]
-            s.msg = created.filter(v =>v.TABLE_NAME === s.name)[0]
+            s.msg = created.filter(v => v.TABLE_NAME === s.name)[0]
         })
         res.send({
             status: 200,

@@ -10,11 +10,12 @@ var render = function ({ addOrm, name, updateOrm, deleteOrm,data }: Render) {
     // 生成验证规则
     var list: any = []
     var relevanceJson = require("../../../DaveFile/database/relevance.json")
+    var tableinterface = require("../../../DaveFile/database/tableinterface.json")
+    
     var valueList =data.filter((s: any) => s.relevance)
-    var relevance = ''
     var include:any = []
-    if(valueList[0]){
-        valueList.map((s:any) =>{
+    if(tableinterface[name] && tableinterface[name].relevance){
+        tableinterface[name].relevance.map(s =>{
             include.push(...s.relevance)
         })
     }
@@ -49,20 +50,20 @@ class Service{
     async add(req,res){
         var data = {}
         try {
-                var msg = {
-                    id:0
-                }
                 // 生成验证规则 name验证字段 test为正则 空验证匹配空数据
                 var testList = [
                     ${list.length ? JSON.stringify(list) : ''}
                 ]
                 var verification = this.verify(testList,req.body)
                 if(!verification){
-                    msg = { ${addOrm.map((s: any) => {
-                        return ` ${s.name}:req.body["${s.name}"] `
-                    })} }
+                    var msg = { ${addOrm.map((s: any) => {
+                        return `
+                        ${s.name}:req.body.${s.name}`
+                    })} 
+                    }
                     
                     msg = this.emptyData(msg)
+                    ${relevanceJson.fakef ? `msg.${relevanceJson.fakef}="${relevanceJson.deleteValue}"` : ''}
                     await model.${name}.create(msg).then((s) => {
                         data = {
                             status: 200,
@@ -89,11 +90,13 @@ class Service{
         var data = {}
         try {
             var {pageSize,page} = req.body
+            var where = {}
             var item = ''
+            ${relevanceJson.fakef ? `where.${relevanceJson.fakef}="${relevanceJson.deleteValue}"` : ''}
             if(pageSize && page){
-                item = await model.${name}.findAndCountAll({ where: {},limit:Number(pageSize), offset:(page - 1) * pageSize })
+                item = await model.${name}.findAndCountAll({ where: where,limit:Number(pageSize), offset:(page - 1) * pageSize })
             }else{
-                item = await model.${name}.findAll({ where: {} })
+                item = await model.${name}.findAll({ where: where })
             }
             data = {
                 status: 200,
@@ -111,15 +114,16 @@ class Service{
         }
     }
     async update(req,res){
-        var update = {}
         var data = {}
         try {
-           update = { ${addOrm.map((s: any) => {
-               return ` ${s.name}:req.body["${s.name}"] `
-           })} }
-           
+           var update = { ${addOrm.map((s: any) => {
+                return `
+                ${s.name}:req.body.${s.name}`
+                })} 
+            }
            update = this.emptyData(update)
                 
+           ${relevanceJson.fakef ? `update.${relevanceJson.fakef}="${relevanceJson.deleteValue}"` : ''}
                 var item = await model.${name}.update(update,{
                     where: {
                         id:req.body.id
@@ -140,12 +144,13 @@ class Service{
     }
     async delete(req,res){
         var data = {}
-        var deleteJson = {}
+        var deleteJson = { ${addOrm.map((s: any) => {
+            return `
+            ${s.name}:req.body["${s.name}"]`
+        })} 
+        }
         try {
-            deleteJson = { ${deleteOrm.map((s: any) => {
-                return ` ${s.name}:req.body["${s.name}"] `
-            })} }
-
+            ${relevanceJson.fakef ? `deleteJson.${relevanceJson.fakef}="${relevanceJson.deleteValue}"` : ''}
             await model.${name}.update({
                 ${relevanceJson.fakef}:"${relevanceJson.deleteValue}"
             },{
@@ -167,14 +172,16 @@ class Service{
     }
     async query(req,res){
         var data = {}
-        var where = {}
         try {
-            where = { ${addOrm.map((s: any) => {
-                return ` ${s.name}:req.body["${s.name}"] `
-            })} }
+            var where = { ${addOrm.map((s: any) => {
+                return `
+                ${s.name}:req.body.${s.name}`
+                })} 
+            }
             // 删除无用的数据
             where = this.emptyData(where)
             var item;
+            ${relevanceJson.fakef ? `where.${relevanceJson.fakef}="${relevanceJson.deleteValue}"` : ''}
             if(req.body.page && req.body.pageSize){
                 item = await model.${name}.findAndCountAll({
                     limit:Number(req.body.pageSize),
