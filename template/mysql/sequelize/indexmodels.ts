@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-06-22 20:07:55
- * @LastEditTime: 2020-08-10 21:47:38
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-08-14 16:03:27
+ * @LastEditors: zhang zi fang
  * @Description: In User Settings Edit
  * @FilePath: \nodee:\nodeT\Dave\template\mysql\sequelize\indexmodels.ts
  */
@@ -23,8 +23,12 @@ var render = function ({ server, name, model }: Render) {
         if (tableinterface[v] && tableinterface[v].relevance) {
             tableinterface[v].relevance.map(s => {
                 include.push(...s.relevance)
-                keyBIAO[s.berelevanceName] = true
-                keyBIAO[s.elevanceName] = true
+                s.relevance.map(sv =>{
+                    sv.filter(filterS =>{
+                        keyBIAO[filterS.berelevanceName] = true
+                        keyBIAO[filterS.elevanceName] = true
+                    })
+                })
             })
         }
         // 当前表
@@ -34,18 +38,23 @@ var render = function ({ server, name, model }: Render) {
         Require += `
         var ${v} = require('./${v}');`
     })
-    console.log(keyBIAO)
     if (include.length !== 0) {
         include.map(sv => {
-            belongsTo += `
-       ${sv.berelevanceName}.hasMany(${sv.elevanceName}, { foreignKey: '${sv.berelevancePrice}', targetKey: '${sv.elevancePrice}' });`
+            sv.map(s =>{
+      belongsTo += `
+        ${s.berelevanceName}.hasMany(${s.elevanceName}, { foreignKey: '${s.berelevancePrice}', targetKey: '${s.elevancePrice}' });`
+            })
+           
         })
     }
     var template = `
+        //基础表
     ${Require}
     
+        //关联表
     ${belongsTo}
-    module.exports = { ${name.join(',')} }`
+    
+    module.exports = { ${Object.keys(keyBIAO).join(',')} }`
     return template
 }
 module.exports = render 

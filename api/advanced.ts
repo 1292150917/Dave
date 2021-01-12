@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-21 11:11:30
- * @LastEditTime: 2020-06-21 14:12:18
+ * @LastEditTime: 2020-11-24 21:15:43
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \nodee:\nodeT\Dave\api\advanced.ts
@@ -11,7 +11,6 @@
 var express = require("express");
 var router = express.Router();
 var unity = require('../config/part_unity')
-var query = require('../config/mysql');
 var fs = require('fs')
 var path = require('path')
 interface Callback {

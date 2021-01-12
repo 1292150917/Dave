@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-15 20:18:08
- * @LastEditTime: 2020-08-10 13:32:01
+ * @LastEditTime: 2020-12-03 13:28:06
  * @LastEditors: zhang zi fang
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\api\generate.ts
@@ -11,7 +11,6 @@
 var express = require("express");
 var router = express.Router();
 var unity = require('../config/part_unity')
-var query = require('../config/mysql');
 var path = require('path')
 var fs = require('fs')
 var SequelizeAuto = require('sequelize-auto')
@@ -43,14 +42,22 @@ function fileDisplay(url: any, list: any, name: any) {
     return list
 }
 async function createHtml(req: any, res: any) {
+    var query = require('../config/mysql')(global.webpageView ? req.cookies : '');
     interface ReqBody {
         name: any,
         ORM: string,
         download: string
     }
-    var json = fs.readFileSync(cv('../DaveFile/database/watch.json'), "utf-8")
-    var create = require(cv('../template/mysql/sequelize/controller.ts'))
-    var jsoncurd = fs.readFileSync(cv('../config/index.json'), "utf-8")
+    var json = ""
+    var create = require(cv('../template/mysql/sequelize/controller'))
+    var jsoncurd = {}
+    if (global.webpageView) {
+        json = JSON.stringify(req.body.jsonRender)
+        jsoncurd = req.cookies.index
+    } else {
+        json = fs.readFileSync(cv('../DaveFile/database/watch.json'), "utf-8")
+        jsoncurd = fs.readFileSync(cv('../config/index.json'), "utf-8")
+    }
     jsoncurd = JSON.parse(jsoncurd)
     json = JSON.parse(json)
     var { name, ORM, download }: ReqBody = req.body
@@ -95,12 +102,14 @@ async function createHtml(req: any, res: any) {
         var addOrm: any = [] //可新增的字段
         var updateOrm: any = [] //可更新字段
         var deleteOrm: any = [] //可删除字段
+        var queryOrm: any = [] //可查询字段
         if (ORM === 'sequelize') {
             json[name[index]].map((s: any) => {
                 if (s.add) {
                     addOrm.push({
                         name: s.Field,
-                        null: s.required
+                        null: s.required,
+                        item: s
                     })
                 }
                 if (s.update) {
@@ -115,6 +124,12 @@ async function createHtml(req: any, res: any) {
                         item: s
                     })
                 }
+                if (s.query) {
+                    queryOrm.push({
+                        name: s.Field,
+                        item: s
+                    })
+                }
             })
             // curd
             data.push({
@@ -123,30 +138,32 @@ async function createHtml(req: any, res: any) {
             })
             data.push({
                 name: `service/${name[index]}.js`,
-                msg: require(cv('../template/mysql/sequelize/service.ts'))({ addOrm, name: name[index], data: json[name[index]], updateOrm, deleteOrm })
+                msg: require(cv('../template/mysql/sequelize/service'))({ addOrm, name: name[index], data: json[name[index]], updateOrm, deleteOrm, queryOrm })
             })
             data.push({
                 name: `models/${name[index]}.js`,
-                msg: require(cv('../template/mysql/sequelize/models.ts'))({ server: json[name[index]], name: name[index], model: tables[name[index]] })
+                msg: require(cv('../template/mysql/sequelize/models'))({ server: json[name[index]], name: name[index], model: tables[name[index]] })
             })
         }
 
     }
-    // curd
-    var jsoncurd = fs.readFileSync(cv('../config/index.json'), "utf-8")
-    jsoncurd = JSON.parse(jsoncurd)
 
     data.push({
         name: "config/db.js",
-        msg: require(cv('../template/mysql/sequelize/db.ts'))({ db: jsoncurd })
+        msg: require(cv('../template/mysql/sequelize/db'))({ db: jsoncurd })
     })
     data.push({
         name: `models/index.js`,
-        msg: require(cv('../template/mysql/sequelize/indexmodels.ts'))({ name: name, model: json })
+        msg: require(cv('../template/mysql/sequelize/indexmodels'))({ name: name, model: json })
     })
     if (download) {
         data.push(...fileDisplay(cv('../template/mysql/sequelize/app'), [], ''))
-
+    }
+    if (!download) {
+        data.push({
+            name: `models/${name[index]}.vue`,
+            msg: require(cv('../template/views/crud'))({ server: json[name[index]], name: name[index], model: tables[name[index]], body: req.body })
+        })
     }
 
     res.send({

@@ -21,6 +21,7 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+console.log('启动成功:端口为' + port)
 /**
  * Listen on provided port, on all network interfaces.
  */

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-21 13:42:27
- * @LastEditTime: 2020-07-05 20:33:25
+ * @LastEditTime: 2020-11-24 21:19:25
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\tablesListPage.ts
@@ -16,7 +16,6 @@
  */
 "use strict"
 var unity = require('../config/part_unity')
-var query = require('../config/mysql');
 class tablesListPage extends unity {
     constructor(req?: any, res?: any) {
         super(req, res);
@@ -24,6 +23,7 @@ class tablesListPage extends unity {
     }
     async go() {
         var { res, req } = this
+        var query = require('../config/mysql')(global.webpageView ? req.cookies : '');
         var tables = await query({ sql: `select * from ${req.query.name}`, res })
         res.send({
             status: 200,

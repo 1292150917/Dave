@@ -1,15 +1,18 @@
 {
-    "name": "node",
-    "version": "0.0.0",
-    "private": true,
-    "scripts": {
-      "start": "node ./bin/www"
-    },
-    "dependencies": {
-      "body-parser": "^1.19.0",
-      "express": "~4.16.1",
-      "mysql2": "^2.1.0",
-      "sequelize": "^5.21.10"
-    }
+  "name": "node",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "pm2 start pm2.json",
+    "stop": "pm2 delete node",
+    "log":"pm2 log",
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "~4.16.1",
+    "mysql2": "^2.1.0",
+    "pm2": "^3.5.1",
+    "sequelize": "^5.21.10"
   }
-  
+}

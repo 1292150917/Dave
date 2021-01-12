@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-06-20 16:53:14
- * @LastEditTime: 2020-07-14 22:23:08
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-09-16 16:31:07
+ * @LastEditors: zhang zi fang
  * @Description: In User Settings Edit
  * @FilePath: \easyweb-cloud-web-mastere:\nodeT\Dave\template\mysql\sequelize\db.ts
  */ 
@@ -11,7 +11,7 @@ interface Render {
 }
 var render = function ({ db }: Render) {
     var template = `
-var Sequelize = require("Sequelize");
+var Sequelize = require("sequelize");
 const sequelize = new Sequelize('${db.database}', '${db.user}', '${db.password}', {
   host: '${db.host}',
   port:${db.port},

@@ -8,34 +8,43 @@ var path = require('path')
 var logger = log4js.getLogger();
 var a = require("./config/index.json")
 var fs = require('fs')
+var cookieParser = require("cookie-parser")
 logger.level = 'info'; // default level is OFF - which means no logs at all.
 logger.info('Log from default logger');
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 app.use(bodyParser.json({ limit: '50mb' }));
-
+global.webpageView = false  //开启网页版本操作
 // 验证文件格式
-
+var uuid = require('node-uuid')
 try {
 	JSON.parse(fs.readFileSync('./config/index.json', "utf-8"))
 } catch (error) {
 	fs.writeFileSync('./config/index.json', JSON.stringify({}))
 }
+app.use(cookieParser())
 
 app.use('*', function (req: any, res: any, next: any) {
 	var json = fs.readFileSync('./config/index.json', "utf-8")
 	json = JSON.parse(json)
-	if (!json.host && !req.query.host) {
+	if (!json.host && !req.query.host && !global.webpageView) {
 		res.send({ status: 201, msg: "请先链接数据库" })
 	} else {
+		if (global.webpageView && !req.query.host && !req.cookies.index) {
+			res.send({ status: 201, msg: "请先链接数据库" })
+			return
+		}
 		next()
 	}
 })
 // 数据库链接
 app.get('/database/create', async function (req, res) {
 	try {
-		var json = fs.readFileSync('./config/index.json', "utf-8")
-		json = JSON.parse(json)
+		var json = {}
+		if (!global.webpageView) {
+			json = fs.readFileSync('./config/index.json', "utf-8")
+			json = JSON.parse(json)
+		}
 		// 创建数据库
 		if (req.query.create) {
 			db = mysql.createConnection({
@@ -91,13 +100,23 @@ app.get('/database/create', async function (req, res) {
 						})
 						return
 					}
-
-					Object.keys(req.query).map(s => {
+					if (!global.webpageView) {
 						Object.keys(req.query).map(s => {
 							json[s] = req.query[s]
+							fs.writeFileSync('./config/index.json', JSON.stringify(json))
 						})
-						fs.writeFileSync('./config/index.json', JSON.stringify(json))
-					})
+					} else {
+						function getData(days) {
+							var date1 = new Date()
+							var date2 = new Date(date1);
+							date2.setDate(date1.getDate() + days);
+							return date2
+						}
+						res.cookie('index', JSON.stringify(req.query), {
+							expires: getData(7)
+						})
+					}
+
 					res.send({
 						status: 200,
 					})
@@ -156,7 +175,7 @@ app.get('/JApplet/code', function (req, res) {
 					res.send(data)
 				});`
 			},
-			
+
 		]
 	})
 })

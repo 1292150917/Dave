@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-03-21 13:42:27
- * @LastEditTime: 2020-06-09 19:21:11
+ * @LastEditTime: 2020-11-24 21:18:22
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: \yjhle:\zl-代码\个人\exploit_node\api\alterUpdate.ts
@@ -16,7 +16,6 @@
  */
 "use strict"
 var unity = require('../config/part_unity')
-var query = require('../config/mysql');
 class alterUpdate extends unity {
     constructor(req?: any, res?: any) {
         super(req, res);
@@ -24,6 +23,7 @@ class alterUpdate extends unity {
     }
     async go() {
         var { res, req } = this
+        var query = require('../config/mysql')(global.webpageView ? req.cookies : '');
         try {
             var { surface, Field, Type, yuanField, Comment, Default, Null, Key, yuanKey, Extra, yuanExtra } = req.query
             var notNull = ''

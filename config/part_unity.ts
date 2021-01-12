@@ -3,10 +3,11 @@
  * @version: 
  * @Author: 
  * @Date: 2019-09-27 09:01:42
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2020-06-22 18:04:30
+ * @LastEditors: zhang zi fang
+ * @LastEditTime: 2020-11-25 09:40:33
  */
 "use strict"
+
 var config = require('./index.json')
 class unity_Class {
     req = ''
@@ -17,7 +18,12 @@ class unity_Class {
         this.req = req
         this.res = res
         this.access_token_pl = (<any>global).access_token_pl
-        Object.keys(config).forEach(s =>{
+        if (global.webpageView) {
+            if (this.req && this.req.cookies && this.req.cookies.index) {
+                config = JSON.parse(this.req.cookies.index)
+            }
+        }
+        Object.keys(config).forEach(s => {
             this[s] = config[s]
         })
     }
@@ -117,7 +123,7 @@ class unity_Class {
             }
         })
         var val = `select * from ${name} where ${value}`
-        if(rep && rep.descName){
+        if (rep && rep.descName) {
             val += `${rep !== false && rep !== undefined ? `order by ${rep.descName} ${rep.desc ? '' : 'desc'}` : ''}`
         }
         if (rep && rep.page) {

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-06-20 16:53:14
- * @LastEditTime: 2020-08-06 16:30:52
+ * @LastEditTime: 2020-09-17 14:54:03
  * @LastEditors: zhang zi fang
  * @Description: In User Settings Edit
  * @FilePath: \nodee:\nodeT\Dave\template\mysql\sequelize\controller.ts
@@ -27,7 +27,7 @@ var render = function ({ addOrm, name, vname }: Render) {
     var template = `
 let express = require('express');
 let router = express.Router();
-let service${toName} = require('../service/${name}.js')
+let service${toName} = require('../service/${name}')
 service${toName} = new service${toName}()
 
 /**

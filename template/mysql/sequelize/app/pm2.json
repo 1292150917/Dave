@@ -1,0 +1,5 @@
+{
+    "name": "node",
+    "watch": true,
+    "script": "./bin/www.js"
+}

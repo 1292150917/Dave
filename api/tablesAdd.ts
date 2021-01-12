@@ -16,7 +16,6 @@
  */
 "use strict"
 var unity = require('../config/part_unity')
-var query = require('../config/mysql');
 class tablesListPage extends unity {
     constructor(req?: any, res?: any) {
         super(req, res);
@@ -24,6 +23,7 @@ class tablesListPage extends unity {
     }
     async go() {
         var { res, req } = this
+        var query = require('../config/mysql')(global.webpageView ? req.cookies : '');
         var { describe, name, describe } = req.query
         var sql = `create table ${name} (
             id int (11) NOT NULL PRIMARY KEY AUTO_INCREMENT

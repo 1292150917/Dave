@@ -1,8 +1,8 @@
 <!--
  * @Author: your name
  * @Date: 2020-06-06 12:46:34
- * @LastEditTime: 2020-06-20 18:59:25
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-12-02 14:10:27
+ * @LastEditors: zhang zi fang
  * @Description: In User Settings Edit
  * @FilePath: \nodec:\Users\zhamgzifang\Desktop\code-generation\README.md
 --> 
@@ -19,6 +19,24 @@
   <a href="https://gitee.com/zzf0529/Dave"><img src="https://img.shields.io/badge/node-5.2%2B-brightgreen.svg?style=flat"></a>
   <a href='https://gitee.com/zzf0529/Dave/stargazers'><img src='https://gitee.com/zzf0529/Dave/badge/star.svg?theme=dark' alt='star'></img></a>
 </p>
+
+<p align="center">网页版正在逐步更新：采用cookie以及Storage缓存，Dave绝不存储用户一分信息（包含操作信息等）。</p>
+<p align="center">
+网页版地址（个人开源均不提供测试数据库）：http://dave.zzf9.com/。
+
+</p>
+
+### 网页版特点功能
+
+#### 优点
+* 可不下载代码，线上直接链接数据库进行crud
+
+#### 缺点
+* 不可生成可部署代码，仅允许复制粘贴代码进行操作。
+
+#### 原因
+* 数据库模型均是本地cookie存储，如果几百个表，考虑到接口交互压力，而不提供线上生成下载代码功能。而且接口均不记录使用者的数据库信息等~
+
 
 <p align="center">🚀后端接口和文档自动化，前端(客户端) 定制返回JSON的数据和结构！</p>
 

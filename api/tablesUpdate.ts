@@ -24,7 +24,6 @@
  */
 "use strict"
 var unity = require('../config/part_unity')
-var query = require('../config/mysql');
 class tablesSurface extends unity {
     constructor(req?: any, res?: any) {
         super(req, res);
@@ -32,6 +31,7 @@ class tablesSurface extends unity {
     }
     async go() {
         var { res, req } = this
+        var query = require('../config/mysql')(global.webpageView ? req.cookies : '');
         var { yuanName, name, describe } = req.query
         var tables = await query({ sql: `rename table ${yuanName} to ${name}`, res })
         await query({ sql: `alter table ${name} comment '${describe}';`, res })
